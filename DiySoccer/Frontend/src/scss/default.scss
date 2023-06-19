@@ -1,0 +1,23 @@
+﻿
+/**
+ * Merge all stylesheets into one
+ * 1. Variables and global styles
+ * 2. Boostrap and other 3rd party libraries
+ * 3. Partials
+ */
+
+// 2: Variables and global styles
+@import "partials/variables";
+
+// 2: Boostrap and other 3rd party libraries
+@import "font-awesome/scss/font-awesome";
+
+// 3: Partials
+
+// Core CSS
+@import "partials/dashboards";
+@import "partials/main-page";
+@import "partials/pages";
+@import "partials/spinner";
+@import "partials/theme";
+@import "partials/img";

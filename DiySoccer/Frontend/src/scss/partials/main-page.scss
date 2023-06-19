@@ -1,0 +1,71 @@
+﻿.dashboard-list {
+        .dashboard-list-title {
+            color: $diys-box-table-cell-lighted;
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-list-item {
+            display: block;
+            color: unset !important;
+            text-decoration: unset !important;
+            
+            background: #fff;
+            box-shadow: 0px 0px 10px #ccc;
+            background-color: white;
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 2px solid;
+            border-color: white;
+
+            min-height: 80px;
+            
+
+            .dashboard-list-item-sub {
+                display: inline-block;
+                width: 100%;
+
+                &:nth-child(2) {
+                    &:nth-last-child(1) {                        
+                        width: inherit;
+                        vertical-align: top;                        
+                    }                     
+                }
+
+                &:nth-child(1) {
+                    &:nth-last-child(2) {
+                        width: inherit;
+                    }
+                }
+            }
+            
+            .dashboard-list-item_name {
+                font-weight: bold;
+                font-size: 24px;
+                margin: auto;
+                text-align: center; 
+                padding-left: 10px;
+            }
+                        
+            .dashboard-list-item_description {
+                font-size: 14px;
+                color: $diys-box-table-cell-lighted;
+                margin: auto;
+                text-align: center; 
+                padding-left: 10px;
+            }
+
+            .dashboard-list-item_actions {                
+                margin: auto;
+                padding-left: 10px;
+                padding-top: 10px;
+            }
+            
+            &:hover {
+                border-color: $diys-box-header-color;
+                color: $diys-box-header-color;
+            }
+        }
+}
+

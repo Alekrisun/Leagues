@@ -1,0 +1,22 @@
+﻿<div class="form-group">
+    {{#if customScores}}
+    <input type="checkbox" class="custom-scoring" checked="checked"/>Кастомный счет
+    {{else}}
+    <input type="checkbox" class="custom-scoring"/>Кастомный счет
+    {{/if}}
+</div>
+
+{{#if events}}
+<div class="form-group">
+    <select class="form-control event-change" disabled="disabled">
+        <option selected="selected" disabled="disabled">Выберете событие</option>
+        {{#each events}}
+        {{#if selected}}
+        <option value="{{id}}" selected="selected">{{name}}</option>
+        {{else}}
+        <option value="{{id}}">{{name}}</option>
+        {{/if}}
+        {{/each}}
+    </select>
+</div>
+{{/if}}

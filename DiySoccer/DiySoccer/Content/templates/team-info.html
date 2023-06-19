@@ -1,0 +1,119 @@
+﻿<div class="dashboard">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="dashboard-box dashboard-box-padded height-140">
+                <div class="dashboard-box__image">
+                    {{#if mediaId}}
+                    <img class="img-120-120" src="/api/image/uncut/{{mediaId}}?width=120&height=120" />
+                    {{else}}
+                    <img class="img-120-120" src="/content/img/DefaultLogo_120x120.png" />
+                    {{/if}}
+                </div>
+                <div class="dashboard-box__name">
+                    {{name}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{#if description}}
+    <div class="dashboard-box">
+        <div class="dashboard-box-header row m0">
+            <div class="dashboard-box-header__title col-sm-12 p0">
+                Описание
+            </div>
+        </div>
+        <div class="dashboard-box-content">
+            {{{description}}}
+        </div>
+    </div>
+    {{/if}}
+
+    {{#if stats}}
+    <div class="dashboard-box">
+        <div class="dashboard-box-header row m0">
+            <div class="dashboard-box-header__title col-sm-12 p0">
+                Статистика команды
+            </div>
+        </div>
+        <div class="dashboard-box-content">
+            {{#each stats}}
+            <table class="table table-striped table-colored-columns">
+                <thead>
+                <tr>
+                    <th>Кол-во игр</th>
+                    <th>Победы</th>
+                    <th>Поражения</th>
+                    <th>Ничьи</th>
+                    <th>Голы</th>
+                    <th>Пропущенные</th>
+                    <th>Очки</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{gamesCount}}</td>
+                    <td>{{wins}}</td>
+                    <td>{{loses}}</td>
+                    <td>{{draw}}</td>
+                    <td>{{scores}}</td>
+                    <td>{{missed}}</td>
+                    <td>{{points}}</td>
+                </tr>
+                </tbody>
+            </table>
+            {{/each}}
+        </div>
+    </div>
+    {{/if}}
+
+    {{#if playersStats}}
+    <div class="dashboard-box">
+        <div class="dashboard-box-header row m0">
+            <div class="dashboard-box-header__title col-sm-12 p0">
+                Статистика игроков
+            </div>
+        </div>
+        <div class="dashboard-box-content">
+            <table class="table table-striped table-colored-columns">
+                <thead>
+                <tr>
+                    <th class="text-left width-100">Номер</th>
+                    <th class="text-left width-620">Имя</th>
+                    <th class="text-right width-100">Лучший</th>
+                    <th class="text-right width-100">Гол</th>
+                    <th class="text-right width-100">Пас</th>
+                    <th class="text-right width-100">Гол + пас</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each playersStats}}
+                <tr>
+                    <td class="text-left width-100">{{num}}</td>
+                    <td class="text-left width-620">{{name}}</td>
+                    <td class="text-right width-100">{{best}}</td>
+                    <td class="text-right width-100">{{goal}}</td>
+                    <td class="text-right width-100">{{help}}</td>
+                    <td class="text-right width-100">{{sum}}</td>
+                </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {{/if}}
+
+    <div class="dashboard-box">
+        <div class="dashboard-box-header row m0">
+            <div class="dashboard-box-header__title col-sm-12 p0">
+                Календарь
+            </div>
+        </div>
+
+        <div class="dashboard-box-content">
+            <table class="table table-striped table-colored-columns">
+                <tbody class="games-container"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
