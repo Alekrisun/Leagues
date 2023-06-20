@@ -1,41 +1,42 @@
 import React from 'react';
-import { ReactDOM } from 'react';
+import ReactDOM from 'react-dom';
 import { createRoot } from "react-dom/client";
-import { leagues, tournaments } from './data';
+import { leagues, tournaments } from './data.js';
 
-
-
-const newLeague = document.getElementsByClassName('col-sm-4');
+const newLeague = document.getElementById('league');
 const root = createRoot(newLeague);
 
 
+const leagueElements = [];
 for (const league in leagues) {
     const logo = (
-       <img
-        className='dashboard-list-item-logo img-70-70'
-        src={eagues[league].logo}
-        alt={leagues[league].alt}
-        /> 
+        <img
+            className='dashboard-list-item-logo img-70-70'
+            src={leagues[league].logo}
+            alt={leagues[league].alt}
+        />
     );
     const name = leagues[league].name;
     const description = leagues[league].description;
 
-    const addLeague = (
-            <div class="col-sm-4">
-            <a class="dashboard-list-item" href="#">
-                <div class="dashboard-list-item-sub">
-                    <img ={logo}/>
+    const leagueElement = (
+        <div className="col-sm-4">
+            <a className="dashboard-list-item" href="#">
+                <div className="dashboard-list-item-sub">
+                    {logo}
                 </div>
-                <div class="dashboard-list-item-sub">
-                    <div class="dashboard-list-item_name">{name}</div>
-                    <div class="dashboard-list-item_description">{description}</div>
-                    </div>
+                <div className="dashboard-list-item-sub">
+                    <div className="dashboard-list-item_name">{name}</div>
+                    <div className="dashboard-list-item_description">{description}</div>
+                </div>
             </a>
-        </div> 
+        </div>
+    );
+
+    leagueElements.push(leagueElement);
     
-    )
-   
 };
 
 
-root.render(addLeague)
+
+ReactDOM.render(leagueElements, root);
