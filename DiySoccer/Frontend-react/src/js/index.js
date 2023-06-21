@@ -4,6 +4,7 @@ import { data } from './data.js';
 
 const root = createRoot(document.getElementById('league'));
 
+
 const leagueElements = [];
 console.log(data);
 for (const index in data.leagues) {
