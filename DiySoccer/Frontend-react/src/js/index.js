@@ -1,12 +1,29 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { data } from './data.js';
+
 
 const LeagueRoot = createRoot(document.getElementById('league'));
 const tournamentsRoot = createRoot(document.getElementById('tournaments'));
 
+
+const data = async () => {
+    const leagueUrl = 'http://localhost:59295/api/leagues';
+    const endpoint = leagueUrl;
+
+    try {
+        const response = await fetch(endpoint);
+        if(response.ok) {
+            const jsonResponse = await response.json();
+            return jsonResponse;
+        }
+    } catch (error) {
+        console.log(error)
+        
+    }
+
+}
+
 const leagueElements = [];
-//console.log(data);
 for (const index in data.leagues) {
     const logo = (
         <img
@@ -37,7 +54,7 @@ for (const index in data.leagues) {
 };
 
 const tournamentElements = [];
-//console.log(data);
+
 for (const index in data.tournaments) {
     const logo = (
         <img
