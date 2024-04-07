@@ -21,3 +21,4 @@
 
 /DiySoccer/DiySoccer/package-lock.json
 /.vs
+/DiySoccer/Frontend-react/node_modules/.bin/acorn
