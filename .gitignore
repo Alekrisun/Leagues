@@ -18,6 +18,18 @@
 /DiySoccer/Interfaces/bin/
 /DiySoccer/Interfaces/obj/
 /DiySoccer/Frontend/node_modules/
+/DiySoccer/Frontend-react/node_modules/
 
 /DiySoccer/DiySoccer/package-lock.json
 /.vs
+
+/src/be/dotnet/.idea/
+/src/be/dotnet/web/.idea/
+/src/be/dotnet/web/obj/
+/src/be/dotnet/web/bin/
+/src/be/dotnet/interfaces/.idea/
+/src/be/dotnet/interfaces/obj/
+/src/be/dotnet/interfaces/bin/
+/src/be/dotnet/implementations/.idea/
+/src/be/dotnet/implementations/obj/
+/src/be/dotnet/implementations/bin/
