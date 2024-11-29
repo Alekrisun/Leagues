@@ -1,4 +1,5 @@
 ﻿using Interfaces.Authenticate.BuisnessLogic;
+using Interfaces.Core;
 using Interfaces.Leagues.BuisnessLogic;
 using Interfaces.Settings.BuisnessLogic;
 using Interfaces.Users.DataAccess;
@@ -19,28 +20,25 @@ namespace Implementations.Authenticate.BuisnessLogic
         public SettingsViewModel GetSettings()
         {
             var model = new SettingsViewModel();
+            
+            model.Permissions.IsAdmin = IsAdmin();
 
-            throw new NotImplementedException();
-            //model.Permissions.IsAdmin = IsAdmin();
-//
             //var context = HttpContext.Current.GetOwinContext();
             //var externalIdentity = context.Authentication.GetExternalIdentity(DefaultAuthenticationTypes.ExternalCookie);
             //model.Permissions.IsAuthenticated = HttpContext.Current.User.Identity.IsAuthenticated ||
             //    (externalIdentity != null && externalIdentity.IsAuthenticated);
-//
+            model.Permissions.IsAuthenticated = false;
             //var currentUserId = GetCurrentUserId(context);
-//
-            //var relationships = new Dictionary<string, string>();
-            //var leagues = _leaguesManager.GetAllUnsecure();
-            //foreach (var league in leagues)
-            //{
-            //    var access = GetAccess(league, context, currentUserId);
-            //    relationships.Add(league.Id, ((int)access).ToString());
-            //}
-//
-            //model.Permissions.Relationships = relationships;
-//
-            //return model;
+            var relationships = new Dictionary<string, string>();
+            var leagues = _leaguesManager.GetAllUnsecure();
+            foreach (var league in leagues)
+            {
+                //var access = GetAccess(league, context, currentUserId);
+                var access = LeagueAccessStatus.Undefined;
+                relationships.Add(league.Id, ((int)access).ToString());
+            }
+            model.Permissions.Relationships = relationships;
+            return model;
         }
 
         //public string GetCurrentUserId(IOwinContext context)
@@ -142,7 +140,7 @@ namespace Implementations.Authenticate.BuisnessLogic
 
         public bool IsAdmin()
         {
-            return true;
+            return false;
             //return HttpContext.Current.User.Identity.IsAuthenticated && HttpContext.Current.User.Identity.Name == "alexey.kryachko@gmail.com";
         }
     }
