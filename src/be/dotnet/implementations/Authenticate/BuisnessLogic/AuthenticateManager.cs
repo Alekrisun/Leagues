@@ -34,7 +34,7 @@ namespace Implementations.Authenticate.BuisnessLogic
             foreach (var league in leagues)
             {
                 //var access = GetAccess(league, context, currentUserId);
-                var access = LeagueAccessStatus.Undefined;
+                var access = LeagueAccessStatus.Admin;
                 relationships.Add(league.Id, ((int)access).ToString());
             }
             model.Permissions.Relationships = relationships;
@@ -140,7 +140,7 @@ namespace Implementations.Authenticate.BuisnessLogic
 
         public bool IsAdmin()
         {
-            return false;
+            return true;
             //return HttpContext.Current.User.Identity.IsAuthenticated && HttpContext.Current.User.Identity.Name == "alexey.kryachko@gmail.com";
         }
     }
