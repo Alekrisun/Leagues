@@ -1,6 +1,8 @@
 ﻿
 using Interfaces.Authenticate.BuisnessLogic;
 using Interfaces.Core;
+using interfaces.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -10,8 +12,6 @@ namespace DiySoccer.Core.Attributes
     {
         private readonly LeagueAccessStatus _accessStatus;
 
-        public IAuthenticateManager AuthenticateManager { get; set; }
-
         public DiySoccerAuthorizeAttribute(LeagueAccessStatus accessStatus)
         {
             _accessStatus = accessStatus;
@@ -19,6 +19,15 @@ namespace DiySoccer.Core.Attributes
 
         public void OnAuthorization(AuthorizationFilterContext context)
         {
+            var user = (User)context.HttpContext.Items["User"];
+            if (user == null)
+            {
+                context.Result = new UnauthorizedResult();
+                return;
+            }
+
+            var authenticateManager = context.HttpContext.RequestServices.GetService<IAuthenticateManager>();
+            
             var leagueId = context.RouteData.Values.ContainsKey("leagueId") 
                 ? context.RouteData.Values["leagueId"]?.ToString() 
                 : string.Empty;
@@ -31,15 +40,15 @@ namespace DiySoccer.Core.Attributes
             switch (_accessStatus)
             {
                 case LeagueAccessStatus.Member:
-                    if (!AuthenticateManager.IsMember(leagueId))
+                    if (!authenticateManager.IsMember(user, leagueId))
                         context.Result = new UnauthorizedResult();
                     break;
                 case LeagueAccessStatus.Editor:
-                    if (!AuthenticateManager.IsEditor(leagueId))
+                    if (!authenticateManager.IsEditor(user, leagueId))
                         context.Result = new UnauthorizedResult();
                     break;
                 case LeagueAccessStatus.Admin:
-                    if (!AuthenticateManager.IsAdmin())
+                    if (!authenticateManager.IsAdmin(user))
                         context.Result = new UnauthorizedResult();
                     break;
                 default:

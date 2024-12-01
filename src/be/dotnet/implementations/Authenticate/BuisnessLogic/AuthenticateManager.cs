@@ -1,8 +1,12 @@
 ﻿using Interfaces.Authenticate.BuisnessLogic;
 using Interfaces.Core;
+using interfaces.Entities;
 using Interfaces.Leagues.BuisnessLogic;
+using Interfaces.Leagues.BuisnessLogic.Model;
+using interfaces.Services;
 using Interfaces.Settings.BuisnessLogic;
 using Interfaces.Users.DataAccess;
+using Microsoft.AspNetCore.Http;
 
 namespace Implementations.Authenticate.BuisnessLogic
 {
@@ -10,60 +14,56 @@ namespace Implementations.Authenticate.BuisnessLogic
     {
         private readonly ILeaguesManager _leaguesManager;
         private readonly IUsersRepository _usersRepository;
+        private readonly IUserService _userService;
 
-        public AuthenticateManager(ILeaguesManager leaguesManager, IUsersRepository usersRepository)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public AuthenticateManager(ILeaguesManager leaguesManager, IUsersRepository usersRepository, IHttpContextAccessor httpContextAccessor, IUserService userService)
         {
             _leaguesManager = leaguesManager;
             _usersRepository = usersRepository;
+            _httpContextAccessor = httpContextAccessor;
+            _userService = userService;
         }
 
         public SettingsViewModel GetSettings()
         {
             var model = new SettingsViewModel();
             
-            model.Permissions.IsAdmin = IsAdmin();
-
-            //var context = HttpContext.Current.GetOwinContext();
-            //var externalIdentity = context.Authentication.GetExternalIdentity(DefaultAuthenticationTypes.ExternalCookie);
-            //model.Permissions.IsAuthenticated = HttpContext.Current.User.Identity.IsAuthenticated ||
-            //    (externalIdentity != null && externalIdentity.IsAuthenticated);
-            model.Permissions.IsAuthenticated = false;
-            //var currentUserId = GetCurrentUserId(context);
+            var currentUser = GetCurrentUser();
+            model.Permissions.IsAdmin = IsAdmin(currentUser);
+            model.Permissions.IsAuthenticated = currentUser != null;
+            
             var relationships = new Dictionary<string, string>();
             var leagues = _leaguesManager.GetAllUnsecure();
             foreach (var league in leagues)
             {
-                //var access = GetAccess(league, context, currentUserId);
-                var access = LeagueAccessStatus.Admin;
+                var access = GetAccess(league, currentUser);
                 relationships.Add(league.Id, ((int)access).ToString());
             }
             model.Permissions.Relationships = relationships;
             return model;
         }
 
-        //public string GetCurrentUserId(IOwinContext context)
-        //{
-        //    var id = HttpContext.Current.User.Identity.GetUserId();
-        //    if (id == null)
-        //    {
-        //        var externalIdentity = context.Authentication.GetExternalIdentity(DefaultAuthenticationTypes.ExternalCookie);
-        //        if (externalIdentity != null)
-        //        {
-        //            var user = _usersRepository.GetByUserName(externalIdentity.Name);
-        //            if (user != null)
-        //                id = user.Id;
-        //        }
-        //    }
-//
-        //    return id;
-        //}
+        private User? GetCurrentUser()
+        {
+            if (_httpContextAccessor.HttpContext == null)
+                return null;
+            
+            var userObject = _httpContextAccessor.HttpContext.Items["User"];
+            if (userObject == null)
+                return null;
 
-        //private LeagueAccessStatus GetAccess(LeagueUnsecureViewModel league, IOwinContext context, string currentUserId)
-        //{
-        //    if (IsAdmin())
-        //        return LeagueAccessStatus.Admin;
-        //    
-        //    throw new NotImplementedException();
+            return (User)userObject;
+        }
+
+        private LeagueAccessStatus GetAccess(LeagueUnsecureViewModel league, User? user)
+        {
+            if (user == null)
+                return LeagueAccessStatus.Member;
+            
+            if (IsAdmin(user))
+                return LeagueAccessStatus.Admin;
             
             //if (string.IsNullOrEmpty(league.VkGroup))
             //{
@@ -71,15 +71,12 @@ namespace Implementations.Authenticate.BuisnessLogic
             //        ? LeagueAccessStatus.Editor
             //        : LeagueAccessStatus.Member;
             //}
-//
             //var loginInfo = context.Authentication.GetExternalLoginInfoAsync();
             //if (loginInfo == null || loginInfo.Result == null)
             //    return LeagueAccessStatus.Undefined;
-//
             //var vkUserIdClaim = loginInfo.Result.ExternalIdentity.Claims.FirstOrDefault(c => c.Type == "VkUserId");
             //if (vkUserIdClaim == null)
             //    return LeagueAccessStatus.Undefined;
-//
             //var api = new VkApi();
             //long vkUserId;
             //try
@@ -90,58 +87,50 @@ namespace Implementations.Authenticate.BuisnessLogic
             //{
             //    return LeagueAccessStatus.Undefined;
             //}
-//
             //var response = api.Groups.IsMember("spbdiyfootball", vkUserId, new long[] { vkUserId }, false);
             //if (!response[0].Member)
             //    return LeagueAccessStatus.Undefined;
-            //
-            //return league.Admins.Any(x => x.Id == currentUserId)
-            //    ? LeagueAccessStatus.Editor
-            //    : LeagueAccessStatus.Member;
-        //}
-
-        public bool IsMember(string unionId)
-        {
-            if (IsAdmin())
-                return true;
-
-            throw new NotImplementedException();
             
-            //var union = _leaguesManager.GetUnsecure(unionId);
-            //if (union == null)
-            //    return false;
-            //
-            //var context = HttpContext.Current.GetOwinContext();
-            //var currentUserId = GetCurrentUserId(context);
-            //
-            //var access = GetAccess(union, context, currentUserId);
-            //return access == LeagueAccessStatus.Member ||
-            //    access == LeagueAccessStatus.Editor || 
-            //    access == LeagueAccessStatus.Admin;
+            return league.Admins.Any(x => x.Id == user.Id.ToString())
+                ? LeagueAccessStatus.Editor
+                : LeagueAccessStatus.Member;
         }
 
-        public bool IsEditor(string leagueId)
+        public bool IsMember(User? user,string unionId)
         {
-            if (IsAdmin())
+            if (IsAdmin(user))
+                return true;
+            
+            var union = _leaguesManager.GetUnsecure(unionId);
+            if (union == null)
+                return false;
+            
+            var currentUserId = GetCurrentUser();
+            
+            var access = GetAccess(union, user);
+            return access == LeagueAccessStatus.Member ||
+                access == LeagueAccessStatus.Editor || 
+                access == LeagueAccessStatus.Admin;
+        }
+
+        public bool IsEditor(User? user, string leagueId)
+        {
+            if (IsAdmin(user))
                 return true;
 
-            //var league = _leaguesManager.GetUnsecure(leagueId);
-            //if (league == null)
-            //    return false;
-//
-            //var context = HttpContext.Current.GetOwinContext();
-            //var currentUserId = GetCurrentUserId(context);
-//
-            //var access = GetAccess(league, context, currentUserId);
-            //return access == LeagueAccessStatus.Editor || access == LeagueAccessStatus.Admin;
+            var league = _leaguesManager.GetUnsecure(leagueId);
+            if (league == null)
+                return false;
 
-            throw new NotImplementedException();
+            var currentUserId = GetCurrentUser();
+
+            var access = GetAccess(league, user);
+            return access == LeagueAccessStatus.Editor || access == LeagueAccessStatus.Admin;
         }
 
-        public bool IsAdmin()
+        public bool IsAdmin(User? user)
         {
-            return true;
-            //return HttpContext.Current.User.Identity.IsAuthenticated && HttpContext.Current.User.Identity.Name == "alexey.kryachko@gmail.com";
+            return user != null && user.IsAdmin;
         }
     }
 }
