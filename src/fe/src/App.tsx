@@ -1,33 +1,48 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
+import { useEffect, useState } from 'react';
+import { BsPlusLg } from 'react-icons/bs';
 import './App.css';
+import Spinner from './components/spinner/spinner';
+import { LeaguesResponse, ResponseEnum } from './types';
+import MainSection from './components/mainSection/mainSection';
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [leaguesData, setLeaguesData] = useState<null | LeaguesResponse>(null);
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const response = await fetch('https://localhost:7184/api/leagues');
+        if (!response.ok) {
+          throw new Error(
+            `Unable to fetch data. Response status: ${response.status}`
+          );
+        }
+        const data: LeaguesResponse = await response.json();
+        setLeaguesData(data);
+        setIsLoaded(true);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    loadData();
+  }, []);
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+      {!isLoaded && <Spinner />}
+      {isLoaded && (
+        <button className="btn">
+          <BsPlusLg />
         </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      )}
+      {isLoaded && leaguesData && (
+        <MainSection data={leaguesData} type={ResponseEnum.LEAGUES} />
+      )}
+      {isLoaded && leaguesData && (
+        <MainSection data={leaguesData} type={ResponseEnum.TOURNAMENTS} />
+      )}
     </>
   );
 }
