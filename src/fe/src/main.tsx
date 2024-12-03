@@ -4,6 +4,7 @@ import './index.css';
 import App from './App.tsx';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 import Layout from './components/layout/layout.tsx';
+import LeagueInfo from './components/leagueInfo/leagueIngo.tsx';
 
 const router = createBrowserRouter([
   {
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <App />,
+      },
+      {
+        path: '/leagues/:id',
+        element: <LeagueInfo />,
       },
     ],
   },

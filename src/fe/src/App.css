@@ -19,8 +19,10 @@
   border-radius: 3px;
   transition: 0.2s ease-in-out;
 }
-.btn:hover {
-  cursor: pointer;
-  background-color: var(--diys-btn-hover-bg-color);
-}
 
+@media (pointer: fine) {
+  .btn:hover {
+    cursor: pointer;
+    background-color: var(--diys-btn-hover-bg-color);
+  }
+}

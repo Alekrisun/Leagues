@@ -1,4 +1,4 @@
-import { LeaguesResponse } from '../../types';
+import { LeaguesResponse, ResponseEnum } from '../../types';
 import Card from '../card/card';
 import styles from './mainSection.module.css';
 
@@ -25,8 +25,9 @@ export default function MainSection({ data, type }: MainSectionType) {
 
   return (
     <>
-
-      <h2 className={styles.sectionHeading}>Лиги</h2>
+      <h2 className={styles.sectionHeading}>
+        {type === ResponseEnum.LEAGUES ? 'Лиги' : 'Турниры'}
+      </h2>
       <div className={styles.leaguesWrapper}>{leagues}</div>
     </>
   );
