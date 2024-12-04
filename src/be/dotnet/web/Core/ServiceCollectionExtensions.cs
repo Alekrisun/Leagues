@@ -71,5 +71,7 @@ public static class ServiceCollectionExtensions
 
         serviceCollection.AddScoped<UserStatisticCalculation>();
         serviceCollection.AddScoped<ScoreCalculation>();
+
+        serviceCollection.AddHttpContextAccessor();
     }
 }

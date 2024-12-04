@@ -1,4 +1,5 @@
-﻿using Interfaces.Settings.BuisnessLogic;
+﻿using interfaces.Entities;
+using Interfaces.Settings.BuisnessLogic;
 
 namespace Interfaces.Authenticate.BuisnessLogic
 {
@@ -6,10 +7,10 @@ namespace Interfaces.Authenticate.BuisnessLogic
     {
         SettingsViewModel GetSettings();
 
-        bool IsMember(string leagueId);
+        bool IsMember(User? user, string leagueId);
 
-        bool IsEditor(string leagueId);
+        bool IsEditor(User? user, string leagueId);
 
-        bool IsAdmin();
+        bool IsAdmin(User? user);
     }
 }
