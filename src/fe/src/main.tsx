@@ -5,6 +5,7 @@ import App from './App.tsx';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 import Layout from './components/layout/layout.tsx';
 import LeagueInfo from './components/leagueInfo/leagueIngo.tsx';
+import SignUp from './components/signup/signup.tsx';
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,14 @@ const router = createBrowserRouter([
         path: '/leagues/:id',
         element: <LeagueInfo />,
       },
+      {
+        path: '/signup',
+        element: <SignUp />,
+      },
+      // {
+      //   path: '/signin',
+      //   element: <SignIn />
+      // }
     ],
   },
 ]);

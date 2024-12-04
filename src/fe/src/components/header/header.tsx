@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import styles from '../layout/layout.module.css';
 
 export default function Header() {
@@ -6,8 +7,12 @@ export default function Header() {
       <div className={styles.headerContainer}>
         <h1 className={styles.siteHeading}>diy football site</h1>
         <div className={styles.headerBtnsWrapper}>
-          <button className={styles.headerBtn}>Login</button>
-          <button className={styles.headerBtn}>Sign Up</button>
+          <Link to="/signin" className={styles.headerBtn}>
+            Sign In
+          </Link>
+          <Link to="/signup" className={styles.headerBtn}>
+            Sign Up
+          </Link>
         </div>
       </div>
     </header>
