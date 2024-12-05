@@ -5,7 +5,10 @@ import App from './App.tsx';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 import Layout from './components/layout/layout.tsx';
 import LeagueInfo from './components/leagueInfo/leagueIngo.tsx';
-import SignUp from './components/signup/signup.tsx';
+import SignUp from './components/auth/signup/signup.tsx';
+import SignIn from './components/auth/signin/signin.tsx';
+import store from './store.ts';
+import { Provider } from 'react-redux';
 
 const router = createBrowserRouter([
   {
@@ -24,16 +27,18 @@ const router = createBrowserRouter([
         path: '/signup',
         element: <SignUp />,
       },
-      // {
-      //   path: '/signin',
-      //   element: <SignIn />
-      // }
+      {
+        path: '/signin',
+        element: <SignIn />,
+      },
     ],
   },
 ]);
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </StrictMode>
 );

@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router';
-import styles from './signup.module.css';
+import styles from '../auth.module.css';
 import { FormEvent, useState } from 'react';
 
 export default function SignUp() {
@@ -40,8 +40,6 @@ export default function SignUp() {
   const submitRegistration = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setValidationErrors([]);
-    validateInput();
-    console.log(validationErrors);
     if (validateInput()) {
       const objToSend = {
         firstname: nameInput,
@@ -49,19 +47,6 @@ export default function SignUp() {
         login: loginInput,
         password: passwordInput,
       };
-
-      const response = await fetch(
-        'https://localhost:7184/authenticate/register',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(objToSend),
-        }
-      );
-
-      console.log(response);
     }
   };
 

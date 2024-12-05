@@ -1,4 +1,6 @@
-.signupForm {
+.signupForm,
+.signinForm {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,6 +12,10 @@
   background-color: var(--diys-box-table-column-color);
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
   border-radius: 15px;
+}
+
+.signinForm {
+  height: 260px;
 }
 
 .heading {
@@ -47,6 +53,14 @@
   top: 45px;
   left: 2px;
   font-size: 8px;
+  color: red;
+}
+
+.loginError {
+  width: 350px;
+  margin: 20px auto;
+  text-align: center;
+  font-size: 14px;
   color: red;
 }
 

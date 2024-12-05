@@ -24,4 +24,13 @@ export enum ResponseEnum {
   TOURNAMENTS = 'tournaments',
 }
 
+export type ResponseUser = {
+  id: number;
+  firstname: string;
+  lastname: string;
+  username: string;
+  token: string;
+  message?: string;
+};
+
 // export { League, LeaguesResponse };

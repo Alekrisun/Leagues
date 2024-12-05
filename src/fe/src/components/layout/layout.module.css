@@ -24,6 +24,8 @@
   position: relative;
   margin: 0;
   text-transform: uppercase;
+  color: var(--diys-name-color);
+  text-decoration: none;
 }
 
 @media (pointer: fine) {
@@ -55,7 +57,8 @@
   width: 150px;
 }
 
-.headerBtn {
+.headerBtn,
+.signoutBtn {
   position: relative;
   padding: 2px 0;
   color: var(--diys-name-color);
