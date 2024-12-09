@@ -1,0 +1,94 @@
+.headingWrapper {
+  display: flex;
+  justify-content: space-between;
+  /* height: 140px; */
+  gap: 50px;
+}
+
+.leagueHeadingWrapper {
+  display: flex;
+  max-width: 500px;
+  width: 100%;
+  min-width: 360px;
+  flex-shrink: 0;
+  min-height: 140px;
+  background-color: white;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+.logoWrapper {
+  width: 130px;
+}
+
+.textWrapper {
+  margin-left: 30px;
+  padding: 20px 0;
+}
+
+.leagueHeading {
+  margin: 0 0 10px 0;
+}
+
+.subName {
+  color: var(--diys-box-table-cell-lighted);
+}
+
+.bannerWrapper {
+  min-width: 360px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+.banner {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tablesWrapper {
+  margin-top: 50px;
+}
+
+@media (max-width: 1070px) {
+  .headingWrapper {
+    flex-direction: column;
+    gap: 30px;
+  }
+  .leagueHeadingWrapper {
+    margin: 0 auto;
+    min-height: 100px;
+  }
+  .bannerWrapper {
+    margin: 0 auto;
+    height: 100px;
+    max-width: 500px;
+    min-width: 360px;
+  }
+  .banner {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  /* .logoWrapper {
+    width: 100px;
+  } */
+}
+
+/* @media (max-width: 850px) {
+  .headingWrapper {
+    flex-wrap: wrap;
+  }
+  .leagueHeadingWrapper {
+    margin: 0 auto;
+    padding-right: 20px;
+    width: unset;
+    height: 100px;
+  }
+  .bannerWrapper {
+    margin: 0 auto;
+    width: 100%;
+    min-width: 360px;
+  }
+  .logoWrapper {
+    width: 100px;
+  }
+} */
