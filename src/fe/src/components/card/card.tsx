@@ -2,12 +2,22 @@ import { Link } from 'react-router';
 import { BsPencilSquare } from 'react-icons/bs';
 import styles from './card.module.css';
 
-type CardProps = { name: string; description: string; mediaId: string };
+type CardProps = {
+  name: string;
+  description: string;
+  mediaId: string;
+  leagueId: string;
+};
 
-export default function Card({ name, description, mediaId }: CardProps) {
+export default function Card({
+  name,
+  description,
+  mediaId,
+  leagueId,
+}: CardProps) {
   // const imageUrl = `http://localhost:5037/api/image/${mediaId}`;
   return (
-    <Link to={`/`} className={styles.card}>
+    <Link to={`/leagues/${leagueId}`} className={styles.card}>
       <div className={styles.imgWrapper}>
         <img src="/" alt="Team logo" />
       </div>

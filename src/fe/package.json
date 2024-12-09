@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "format": "prettier -w ./src/**/*.{ts,tsx,js,jsx}"
   },
   "dependencies": {
     "@types/react-router": "^5.1.20",

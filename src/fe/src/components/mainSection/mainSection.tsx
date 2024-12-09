@@ -15,6 +15,7 @@ export default function MainSection({ data, type }: MainSectionType) {
           description={el.description}
           mediaId={el.mediaId}
           key={el.id}
+          leagueId={el.id}
         />
       );
       leagues.push(card);

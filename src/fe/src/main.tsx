@@ -4,7 +4,7 @@ import './index.css';
 import App from './App.tsx';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 import Layout from './components/layout/layout.tsx';
-import LeagueInfo from './components/leagueInfo/leagueIngo.tsx';
+import LeagueInfoPage from './components/leagueInfo/leagueIngo.tsx';
 import SignUp from './components/auth/signup/signup.tsx';
 import SignIn from './components/auth/signin/signin.tsx';
 import store from './store.ts';
@@ -21,7 +21,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/leagues/:id',
-        element: <LeagueInfo />,
+        element: <LeagueInfoPage />,
       },
       {
         path: '/signup',
