@@ -9,7 +9,6 @@ namespace Interfaces.Leagues.BuisnessLogic
         LeagueTableViewModel GetTable(string leagueId);
         LeagueInfoViewModel GetInfo(string leagueId);
         LeaguesViewModel GetLeagues();
-        IEnumerable<LeagueUnsecureViewModel> GetAllUnsecure();
         LeagueUnsecureViewModel GetUnsecure(string leagueId);
 
         void Create(LeagueUnsecureViewModel model);

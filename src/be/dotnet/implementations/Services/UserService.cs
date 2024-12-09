@@ -18,12 +18,20 @@ namespace DiySoccer.Core.Attributes.Services;
         {
             new User
             {
-                Id = 1, 
+                Id = "1", 
                 FirstName = "Aleksei", 
                 LastName = "K.",
                 Username = "aleksei.kriachko@protonmail.com", 
                 Password = "123456",
                 IsAdmin = true 
+            },
+            new User
+            {
+                Id = "56f2fab83cbc6a10542a5946", 
+                FirstName = "Editor", 
+                LastName = "E.",
+                Username = "editor", 
+                Password = "123456"
             }
         };
 
@@ -52,7 +60,7 @@ namespace DiySoccer.Core.Attributes.Services;
             return _users;
         }
 
-        public User GetById(int id)
+        public User GetById(string id)
         {
             return _users.FirstOrDefault(x => x.Id == id);
         }
