@@ -9,7 +9,7 @@ export default function Header() {
   const dispatch = useDispatch();
 
   const signOutUser = () => {
-    dispatch(logoutUser());
+    // dispatch(logoutUser());
     Cookies.remove('jwt');
   };
 

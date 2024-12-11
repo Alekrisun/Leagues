@@ -9,6 +9,7 @@ import SignUp from './components/auth/signup/signup.tsx';
 import SignIn from './components/auth/signin/signin.tsx';
 import store from './store.ts';
 import { Provider } from 'react-redux';
+import AuthWrapper from './auth/authWrapper.tsx';
 
 const router = createBrowserRouter([
   {
@@ -17,11 +18,19 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <App />,
+        element: (
+          <AuthWrapper>
+            <App />
+          </AuthWrapper>
+        ),
       },
       {
         path: '/leagues/:id',
-        element: <LeagueInfoPage />,
+        element: (
+          <AuthWrapper>
+            <LeagueInfoPage />
+          </AuthWrapper>
+        ),
       },
       {
         path: '/signup',

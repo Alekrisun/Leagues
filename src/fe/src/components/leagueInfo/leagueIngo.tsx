@@ -20,35 +20,35 @@ export default function LeagueInfoPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const jwt = Cookies.get('jwt');
+    // const jwt = Cookies.get('jwt');
 
-    if (!checkJWT()) {
-      navigate('/signin');
-    } else if (checkJWT() && !userStatus.isLoggedIn && jwt) {
-      dispatch(LoginUser({ token: jwt }));
-    }
+    // if (!checkJWT()) {
+    //   navigate('/signin');
+    // } else if (checkJWT() && !userStatus.isLoggedIn && jwt) {
+    //   dispatch(LoginUser({ token: jwt }));
+    // }
 
     const getLeagueInfo = async () => {
       try {
-        if (jwt) {
-          const response = await fetch(
-            `https://localhost:7184/api/leagues/${id}/info`,
-            {
-              headers: {
-                Authorization: jwt,
-              },
-            }
-          );
-          if (!response.ok) {
-            throw new Error(
-              `Unable to fetch data. Response status: ${response.status}`
-            );
+        // if (jwt) {
+        const response = await fetch(
+          `https://localhost:7184/api/leagues/${id}/info`,
+          {
+            headers: {
+              Authorization: userStatus.token,
+            },
           }
-          const data: LeagueInfo = await response.json();
-
-          setLeagueInfo(data);
-          setIsLoaded(true);
+        );
+        if (!response.ok) {
+          throw new Error(
+            `Unable to fetch data. Response status: ${response.status}`
+          );
         }
+        const data: LeagueInfo = await response.json();
+
+        setLeagueInfo(data);
+        setIsLoaded(true);
+        // }
       } catch (err) {
         console.log(err);
       }

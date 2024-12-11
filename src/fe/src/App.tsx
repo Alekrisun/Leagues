@@ -18,17 +18,17 @@ function App() {
   const [leaguesData, setLeaguesData] = useState<null | LeaguesResponse>(null);
 
   useEffect(() => {
-    const jwt = Cookies.get('jwt');
-    if (jwt) {
-      if (checkJWT() && !userStatus.isLoggedIn) {
-        dispatch(LoginUser({ token: jwt }));
-      }
+    // const jwt = Cookies.get('jwt');
+    // if (jwt) {
+    //   if (checkJWT() && !userStatus.isLoggedIn) {
+    //     dispatch(LoginUser({ token: jwt }));
+    //   }
 
-      if (!checkJWT() && userStatus.isLoggedIn) {
-        dispatch(logoutUser());
-        navigate('/login');
-      }
-    }
+    //   if (!checkJWT() && userStatus.isLoggedIn) {
+    //     dispatch(logoutUser());
+    //     navigate('/login');
+    //   }
+    // }
 
     const loadData = async () => {
       try {
