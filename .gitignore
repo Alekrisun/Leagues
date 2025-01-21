@@ -33,3 +33,12 @@
 /src/be/dotnet/implementations/.idea/
 /src/be/dotnet/implementations/obj/
 /src/be/dotnet/implementations/bin/
+
+/src/be/dotnet/DiySoccer.Web.Api/bin/
+/src/be/dotnet/DiySoccer.Web.Api/obj/
+/src/be/dotnet/DiySoccer.Application/obj/
+/src/be/dotnet/DiySoccer.Application/bin/
+/src/be/dotnet/DiySoccer.Domain/obj/
+/src/be/dotnet/DiySoccer.Domain/bin/
+/src/be/dotnet/DiySoccer.Infrastructure/obj/
+/src/be/dotnet/DiySoccer.Infrastructure/bin/
