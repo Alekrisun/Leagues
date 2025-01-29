@@ -6,10 +6,9 @@ export default function Layout() {
   return (
     <>
       <Header />
-      <main className={styles.main}>
-        <Outlet />
-      </main>
-      {/* <Footer /> */}
+      {/* <main className={styles.main}> */}
+      <Outlet />
+      {/* </main> */}
     </>
   );
 }

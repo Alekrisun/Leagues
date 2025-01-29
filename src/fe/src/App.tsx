@@ -9,11 +9,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { LoginUser, logoutUser, selectUserData } from './slice/userSlice';
 import { useNavigate } from 'react-router';
 import checkJWT from './service/checkJwt';
+import { loadLeaguesData } from './api/getData';
+import ApiErrorComponent from './components/apiError/apiError';
 
 function App() {
   const userStatus = useSelector(selectUserData);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [loadError, setLoadError] = useState('');
   const [isLoaded, setIsLoaded] = useState(false);
   const [leaguesData, setLeaguesData] = useState<null | LeaguesResponse>(null);
 
@@ -29,33 +32,31 @@ function App() {
     //     navigate('/login');
     //   }
     // }
-
-    const loadData = async () => {
-      try {
-        const response = await fetch('https://localhost:7184/api/leagues');
-        if (!response.ok) {
-          throw new Error(
-            `Unable to fetch data. Response status: ${response.status}`
-          );
+    if (!loadError) {
+      const loadData = async () => {
+        try {
+          const data = await loadLeaguesData('leagues');
+          setLeaguesData(data);
+          setIsLoaded(true);
+        } catch (err) {
+          setIsLoaded(true);
+          setLoadError((err as Error).message);
         }
-        const data: LeaguesResponse = await response.json();
-        setLeaguesData(data);
-        setIsLoaded(true);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    loadData();
-  }, []);
+      };
+      loadData();
+    }
+  }, [loadError]);
 
   return (
     <>
       {!isLoaded && <Spinner />}
-      {isLoaded && (
+      {isLoaded && leaguesData && (
         <button className="btn">
           <BsPlusLg />
         </button>
+      )}
+      {!!loadError && (
+        <ApiErrorComponent msg={loadError} tryAgain={setLoadError} />
       )}
       {isLoaded && leaguesData && (
         <MainSection data={leaguesData} type={ResponseEnum.LEAGUES} />
