@@ -22,11 +22,13 @@ export default function AuthWrapper({ children }: { children: JSX.Element }) {
   const jwt = Cookies.get('jwt');
   console.log(params);
 
-  if (
-    !jwt &&
-    !PARTIALLY_PROTECTED_ROUTES.includes(path[1]) &&
-    location.pathname !== '/'
-  ) {
+  if (!jwt) {
+    if (location.pathname === '/') {
+      return children;
+    }
+    if (PARTIALLY_PROTECTED_ROUTES.includes(path[1]) && !params.id) {
+      return children;
+    }
     return <Navigate to="/signin" replace />;
   }
 
@@ -35,14 +37,14 @@ export default function AuthWrapper({ children }: { children: JSX.Element }) {
       Cookies.remove('jwt');
       dispatch(logoutUser());
 
-      if (
-        location.pathname !== '/' &&
-        !PARTIALLY_PROTECTED_ROUTES.includes(path[1])
-      ) {
-        return <Navigate to="/signin" replace />;
+      if (location.pathname === '/') {
+        return children;
+      }
+      if (PARTIALLY_PROTECTED_ROUTES.includes(path[1]) && !params.id) {
+        return children;
       }
 
-      return children;
+      return <Navigate to="/signin" replace />;
     }
 
     if (checkJWT() && !userStatus.isLoggedIn) {
@@ -52,7 +54,4 @@ export default function AuthWrapper({ children }: { children: JSX.Element }) {
 
     return children;
   }
-
-  dispatch(logoutUser());
-  return children;
 }

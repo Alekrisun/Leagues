@@ -11,7 +11,7 @@ import store from './store.ts';
 import { Provider } from 'react-redux';
 import AuthWrapper from './auth/authWrapper.tsx';
 import Home from './components/Home/home.tsx';
-import Leagues from './components/Leagues/leagues.tsx';
+import LeaguesTournaments from './components/Leagues/leaguesTournaments.tsx';
 
 const router = createBrowserRouter([
   {
@@ -30,19 +30,35 @@ const router = createBrowserRouter([
         path: '/leagues',
         element: (
           <AuthWrapper>
-            <Leagues />
+            <LeaguesTournaments instance="leagues" />
           </AuthWrapper>
         ),
-        children: [
-          {
-            path: '/leagues/:id',
-            element: (
-              <AuthWrapper>
-                <div></div>
-              </AuthWrapper>
-            ),
-          },
-        ],
+        // children: [
+        //   {
+        //     path: '/leagues/:id',
+        //     element: (
+        //       <AuthWrapper>
+        //         <LeagueInfoPage />
+        //       </AuthWrapper>
+        //     ),
+        //   },
+        // ],
+      },
+      {
+        path: '/leagues/:id',
+        element: (
+          <AuthWrapper>
+            <LeagueInfoPage />
+          </AuthWrapper>
+        ),
+      },
+      {
+        path: '/tournaments',
+        element: (
+          <AuthWrapper>
+            <LeaguesTournaments instance="tournaments" />
+          </AuthWrapper>
+        ),
       },
       {
         path: '/signup',

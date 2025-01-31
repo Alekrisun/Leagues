@@ -1,4 +1,3 @@
-import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import checkJWT from '../../service/checkJwt';
 import { useNavigate } from 'react-router';
@@ -10,57 +9,46 @@ import { LeagueInfo } from '../../types';
 import banner from '../../assets/img/leagueInfo_banner.jpg';
 import styles from './leagueInfo.module.css';
 import TeamTable from '../tables/teamTable/teamTable';
+import { getLeagueInfo } from '../../api/getData';
+import ApiErrorComponent from '../apiError/apiError';
 
 export default function LeagueInfoPage() {
   const { id } = useParams();
   const userStatus = useSelector(selectUserData);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [loadError, setLoadError] = useState('');
   const [leagueInfo, setLeagueInfo] = useState<LeagueInfo>();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const tryLoadAgain = () => {
+    setLoadError('');
+    setIsLoaded(false);
+  };
+
   useEffect(() => {
-    // const jwt = Cookies.get('jwt');
-
-    // if (!checkJWT()) {
-    //   navigate('/signin');
-    // } else if (checkJWT() && !userStatus.isLoggedIn && jwt) {
-    //   dispatch(LoginUser({ token: jwt }));
-    // }
-
-    const getLeagueInfo = async () => {
-      try {
-        // if (jwt) {
-        const response = await fetch(
-          `https://localhost:7184/api/leagues/${id}/info`,
-          {
-            headers: {
-              Authorization: userStatus.token,
-            },
-          }
-        );
-        if (!response.ok) {
-          throw new Error(
-            `Unable to fetch data. Response status: ${response.status}`
-          );
+    if (!loadError) {
+      const loadData = async () => {
+        try {
+          const data = await getLeagueInfo(id!);
+          setLeagueInfo(data);
+          setIsLoaded(true);
+        } catch (err) {
+          setIsLoaded(true);
+          setLoadError((err as Error).message);
         }
-        const data: LeagueInfo = await response.json();
-
-        setLeagueInfo(data);
-        setIsLoaded(true);
-        // }
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    getLeagueInfo();
-  }, []);
+      };
+      loadData();
+    }
+  }, [loadError]);
 
   return (
     <>
       {!isLoaded && <Spinner />}
-      {isLoaded && (
+      {!!loadError && (
+        <ApiErrorComponent msg={loadError} tryAgain={tryLoadAgain} />
+      )}
+      {/* {isLoaded && (
         <>
           <div className={styles.headingWrapper}>
             <div className={styles.leagueHeadingWrapper}>
@@ -80,7 +68,7 @@ export default function LeagueInfoPage() {
             <TeamTable data={leagueInfo!.teams} />
           </div>
         </>
-      )}
+      )} */}
     </>
   );
 }
