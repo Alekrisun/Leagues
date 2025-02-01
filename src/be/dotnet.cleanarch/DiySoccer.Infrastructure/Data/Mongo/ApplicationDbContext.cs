@@ -6,16 +6,21 @@ namespace DiySoccer.Infrastructure.Data.Mongo;
 
 public class ApplicationDbContext : IApplicationDbContext
 {
-    private readonly IMongoClient _client;
-    private readonly IMongoDatabase _database;
-    
-    protected IMongoCollection<LeagueDb> LeaguesCollection { get; }
-    public IMongoCollection<LeagueDb> Leagues => LeaguesCollection;
-    
+    public IMongoCollection<LeagueDb> Leagues { get; private set; }
+    public IMongoCollection<EventDb> Events { get; }
+    public IMongoCollection<GameDb> Games { get; }
+    public IMongoCollection<TeamDb> Teams { get; }
+    public IMongoCollection<UserDb> Users { get; }
+
     public ApplicationDbContext()
     {
-        _client = new MongoClient(MongoConnetcionString.ConnectionString);
-        _database = _client.GetDatabase(MongoConnetcionString.Database);
-        LeaguesCollection = _database.GetCollection<LeagueDb>("leagues");
+        var client = new MongoClient(MongoConnetcionString.ConnectionString);
+        var database = client.GetDatabase(MongoConnetcionString.Database);
+        
+        Leagues = database.GetCollection<LeagueDb>("leagues");
+        Events = database.GetCollection<EventDb>("events");
+        Games = database.GetCollection<GameDb>("games");
+        Teams = database.GetCollection<TeamDb>("teams");
+        Users = database.GetCollection<UserDb>("users");
     }
 }

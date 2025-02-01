@@ -24,6 +24,10 @@ public class GetLeaguesWithPaginationHandler : IRequestHandler<GetLeaguesWithPag
                 Id = x.EntityId,
                 Name = x.Name,
                 Description = x.Description,
+                Type = x.Type,
+                SubName = x.SubName,
+                Information = x.Information,
+                MediaId = x.MediaId,
             })
             .PaginatedListAsync(request.Page, request.PageSize);
     }

@@ -1,5 +1,6 @@
 ﻿using DiySoccer.Application.Core.Models;
 using DiySoccer.Application.Leagues.Queries.GetAllWithPagination;
+using DiySoccer.Application.Leagues.Queries.GetDetails;
 using DiySoccer.Web.Api.Core;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -15,12 +16,25 @@ public class LeaguesEndpoints : EndpointGroupBase
     {
         app.MapGroup(this)
             //.RequireAuthorization()
-            .MapGet(GetLeaguesWithPagination);
+            .MapGet(GetLeaguesWithPagination)
+            .MapGet(GetLeagueDetail, "{leagueId}");
     }
-    
-    public async Task<Ok<PaginatedList<GetAllLeagueDto>>> GetLeaguesWithPagination(ISender sender, [FromBody] GetLeaguesWithPaginationQuery query)
+
+    private async Task<Ok<PaginatedList<GetAllLeagueDto>>> GetLeaguesWithPagination(ISender sender, [FromBody] GetLeaguesWithPaginationQuery query)
     {
         var result = await sender.Send(query);
+
+        return TypedResults.Ok(result);
+    }
+    
+    private async Task<Results<Ok<GetLeagueDetailDto>, NotFound>> GetLeagueDetail(ISender sender, string leagueId)
+    {
+        if (string.IsNullOrEmpty(leagueId))
+            return TypedResults.NotFound();
+        
+        var result = await sender.Send(new GetLeagueDetailQuery{LeagueId = leagueId});
+        if (result == null)
+            return TypedResults.NotFound();
 
         return TypedResults.Ok(result);
     }
