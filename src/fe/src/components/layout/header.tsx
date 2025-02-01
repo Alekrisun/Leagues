@@ -19,7 +19,8 @@ export default function Header() {
         <Link to="/" className={styles.siteHeading}>
           <h1 className={styles.siteHeading}>diy football site</h1>
         </Link>
-        <div className={styles.headerBtnsWrapper}>
+        <nav className={styles.headerBtnsWrapper}>
+          {userStatus.isLoggedIn && <Link to="/leagues">Leagues</Link>}
           {!userStatus.isLoggedIn && (
             <Link to="/signin" className={styles.headerBtn}>
               Sign In
@@ -35,7 +36,7 @@ export default function Header() {
               Sign Out
             </Link>
           )}
-        </div>
+        </nav>
       </div>
     </header>
   );

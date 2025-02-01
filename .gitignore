@@ -24,6 +24,7 @@
 /.vs
 
 /src/be/dotnet/.idea/
+src/be/dotnet/.vs/
 /src/be/dotnet/web/.idea/
 /src/be/dotnet/web/obj/
 /src/be/dotnet/web/bin/

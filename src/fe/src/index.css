@@ -11,6 +11,7 @@
   /* text-rendering: optimizeLegibility; */
 
   --diys-header-color: #21324c;
+  /* --diys-header-color: #214c3b; */
   --diys-name-color: #f4f4f4;
   --diys-box-header-color: #e69200;
   --diys-box-table-header-color: #e4f5fb;
@@ -31,6 +32,13 @@ body {
   min-height: 100vh;
   background: url('./assets/img/background-pattern.png');
   /* color: #3f3f3f; */
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 0;
 }
 /* 
 h1 {
