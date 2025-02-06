@@ -27,6 +27,7 @@ export default function AuthWrapper({ children }: { children: JSX.Element }) {
       return children;
     }
     if (PARTIALLY_PROTECTED_ROUTES.includes(path[1]) && !params.id) {
+      // if (PARTIALLY_PROTECTED_ROUTES.includes(path[1]) && !params.id) {
       return children;
     }
     return <Navigate to="/signin" replace />;
@@ -41,6 +42,7 @@ export default function AuthWrapper({ children }: { children: JSX.Element }) {
         return children;
       }
       if (PARTIALLY_PROTECTED_ROUTES.includes(path[1]) && !params.id) {
+        // if (PARTIALLY_PROTECTED_ROUTES.includes(path[1]) && !params.id) {
         return children;
       }
 
