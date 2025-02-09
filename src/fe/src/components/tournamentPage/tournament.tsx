@@ -17,7 +17,7 @@ export default function TournamentPage() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [loadError, setLoadError] = useState('');
   const [league, setLeagueInfo] = useState<LeagueInfo>();
-  const eventCards: JSX.Element[] = [];
+  let eventCards: JSX.Element[] = [];
 
   const useDefaultImg = (e: SyntheticEvent<HTMLImageElement, Event>) => {
     const target: HTMLImageElement = e.target as HTMLImageElement;
@@ -46,16 +46,13 @@ export default function TournamentPage() {
     }
   }, [loadError]);
 
-  if (league) {    
-    for (var key in league.events) {
-      
+  if (league) {  
+    eventCards = [];  
+    for (var key in league.events) {      
       var value = league.events[key];
-
-      console.log(value);
-      //TODO: map entity
-
       const card = (<EventTournamentCard
           id={key}
+          data={value}
         />  
       ); 
       eventCards.push(card);
