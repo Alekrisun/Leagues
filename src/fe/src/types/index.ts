@@ -14,8 +14,8 @@ export type LeaguesResponse = {
 };
 
 export enum ResponseEnum {
-  LEAGUES = 'leagues',
-  TOURNAMENTS = 'tournaments',
+  LEAGUES = 1,
+  TOURNAMENTS = 2,
 }
 
 export type ResponseUser = {

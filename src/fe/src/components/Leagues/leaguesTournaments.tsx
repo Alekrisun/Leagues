@@ -7,7 +7,7 @@ import styles from './leagues.module.css';
 import Spinner from '../spinner/spinner';
 import ApiErrorComponent from '../apiError/apiError';
 
-export default function LeaguesTournaments({ instance }: { instance: string }) {
+export default function LeaguesTournaments({ instance, type }: { instance: string, type: number }) {
   const [loadError, setLoadError] = useState('');
   const [isLoaded, setIsLoaded] = useState(false);
   const [LoadedData, setLoadedData] = useState<null | League[]>(null);
@@ -36,16 +36,19 @@ export default function LeaguesTournaments({ instance }: { instance: string }) {
 
   if (LoadedData) {
     LoadedData.forEach((el) => {
-      const card = (
-        <Card
-          name={el.name}
-          description={el.description}
-          mediaId={el.mediaId}
-          key={el.id}
-          leagueId={el.id}
-        />
-      );
-      cardsToDraw.push(card);
+      if (el.type == type)
+      {
+        const card = (
+          <Card
+            name={el.name}
+            description={el.description}
+            mediaId={el.mediaId}
+            key={el.id}
+            leagueId={el.id}
+          />
+        );
+        cardsToDraw.push(card);
+      }      
     });
   }
 

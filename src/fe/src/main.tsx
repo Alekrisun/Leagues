@@ -30,7 +30,7 @@ const router = createBrowserRouter([
         path: '/leagues',
         element: (
           <AuthWrapper>
-            <LeaguesTournaments instance="leagues" />
+            <LeaguesTournaments instance="leagues" type={1} />
           </AuthWrapper>
         ),
         // children: [
@@ -56,7 +56,7 @@ const router = createBrowserRouter([
         path: '/tournaments',
         element: (
           <AuthWrapper>
-            <LeaguesTournaments instance="tournaments" />
+            <LeaguesTournaments instance="tournaments" type={2} />
           </AuthWrapper>
         ),
       },
