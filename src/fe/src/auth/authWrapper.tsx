@@ -30,7 +30,8 @@ export default function AuthWrapper({ children }: { children: JSX.Element }) {
       // if (PARTIALLY_PROTECTED_ROUTES.includes(path[1]) && !params.id) {
       return children;
     }
-    return <Navigate to="/signin" replace />;
+    //return <Navigate to="/signin" replace />;
+    return children;
   }
 
   if (jwt) {

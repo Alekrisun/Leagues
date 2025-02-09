@@ -9,7 +9,7 @@ import { LeagueInfo } from '../../types';
 import banner from '../../assets/img/leagueInfo_banner.jpg';
 import styles from './leagueInfo.module.css';
 import TeamTable from '../tables/teamTable/teamTable';
-import { getLeagueInfo } from '../../api/getData';
+import { getLeague } from '../../api/getData';
 import ApiErrorComponent from '../apiError/apiError';
 
 export default function LeagueInfoPage() {
@@ -30,7 +30,7 @@ export default function LeagueInfoPage() {
     if (!loadError) {
       const loadData = async () => {
         try {
-          const data = await getLeagueInfo(id!);
+          const data = await getLeague(id!);
           setLeagueInfo(data);
           setIsLoaded(true);
         } catch (err) {
@@ -48,7 +48,7 @@ export default function LeagueInfoPage() {
       {!!loadError && (
         <ApiErrorComponent msg={loadError} tryAgain={tryLoadAgain} />
       )}
-      {/* {isLoaded && (
+      {isLoaded && (
         <>
           <div className={styles.headingWrapper}>
             <div className={styles.leagueHeadingWrapper}>
@@ -65,10 +65,10 @@ export default function LeagueInfoPage() {
             </div>
           </div>
           <div className={styles.tablesWrapper}>
-            <TeamTable data={leagueInfo!.teams} />
+            
           </div>
         </>
-      )} */}
+      )}
     </>
   );
 }

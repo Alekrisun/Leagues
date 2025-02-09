@@ -3,10 +3,12 @@ import { BsPencilSquare } from 'react-icons/bs';
 import { SyntheticEvent } from 'react';
 import styles from './card.module.css';
 import defaultImg from '../../assets/img/defaultImg.png';
+import { ResponseEnum } from '../../types/index';
 const url = import.meta.env.VITE_API_URL;
 
 type CardProps = {
   name: string;
+  type: number;
   description: string;
   mediaId: string;
   leagueId: string;
@@ -14,6 +16,7 @@ type CardProps = {
 
 export default function Card({
   name,
+  type,
   description,
   mediaId,
   leagueId,
@@ -26,21 +29,43 @@ export default function Card({
     target.className = styles.defaultImg;
   };
 
-  return (
-    <Link to={`/leagues/${leagueId}`} className={styles.card}>
-      <div className={styles.imgWrapper}>
-        <img src={imageUrl} alt="Team logo" onError={useDefaultImg} />
-      </div>
-      <div className={styles.cardTextWrapper}>
-        <div className={styles.textWrapper}>
-          <p className={styles.nameText}>{name}</p>
-          <span className={styles.descText}>{description}</span>
+  if (type === ResponseEnum.LEAGUES) {
+      return (    
+        <Link to={`/leagues/${leagueId}`} className={styles.card}>
+        <div className={styles.imgWrapper}>
+          <img src={imageUrl} alt="Team logo" onError={useDefaultImg} />
         </div>
+        <div className={styles.cardTextWrapper}>
+          <div className={styles.textWrapper}>
+            <p className={styles.nameText}>{name}</p>
+            <span className={styles.descText}>{description}</span>
+          </div>
 
-        <button className={`${styles.btnEdit} ${styles.btn}`}>
-          <BsPencilSquare />
-        </button>
-      </div>
-    </Link>
-  );
+          <button className={`${styles.btnEdit} ${styles.btn}`}>
+            <BsPencilSquare />
+          </button>
+        </div>
+      </Link>    
+    );  
+  }
+
+  if (type === ResponseEnum.TOURNAMENTS) {
+      return (    
+        <Link to={`/tournaments/${leagueId}`} className={styles.card}>
+        <div className={styles.imgWrapper}>
+          <img src={imageUrl} alt="Team logo" onError={useDefaultImg} />
+        </div>
+        <div className={styles.cardTextWrapper}>
+          <div className={styles.textWrapper}>
+            <p className={styles.nameText}>{name}</p>
+            <span className={styles.descText}>{description}</span>
+          </div>
+
+          <button className={`${styles.btnEdit} ${styles.btn}`}>
+            <BsPencilSquare />
+          </button>
+        </div>
+      </Link>    
+    );  
+  }
 }

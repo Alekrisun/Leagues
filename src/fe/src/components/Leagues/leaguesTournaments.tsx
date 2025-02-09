@@ -41,6 +41,7 @@ export default function LeaguesTournaments({ instance, type }: { instance: strin
         const card = (
           <Card
             name={el.name}
+            type={el.type}
             description={el.description}
             mediaId={el.mediaId}
             key={el.id}
