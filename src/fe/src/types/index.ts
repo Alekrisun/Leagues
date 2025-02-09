@@ -49,12 +49,24 @@ export type LeagueInfo = {
   description: string;
   mediaId: string;
   teams: Team[];
-  events: [];
+  events: Record<string, EventLeagueInfo>[];
   gamesToPlay: [];
   bestPlayer: Player;
   bestGoalPlayer: Player;
   bestHelpPlayer: Player;
   news: [];
+};
+
+export type EventLeagueInfo = {
+  name: string;
+  games: GameEventLeagueInfo[]
+
+};
+
+export type GameEventLeagueInfo = {
+  id: number;
+  homeTeamId: string;
+  geustTeamId: string;
 };
 
 // export { League, LeaguesResponse };

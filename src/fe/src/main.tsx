@@ -12,7 +12,7 @@ import Home from './components/Home/home.tsx';
 
 import LeaguesTournaments from './components/Leagues/leaguesTournaments.tsx';
 import LeagueInfoPage from './components/leagueInfo/leagueIngo.tsx';
-import TournamentPage from './components/tournament-page/tournament.tsx';
+import TournamentPage from './components/tournamentPage/tournament.tsx';
 
 const router = createBrowserRouter([
   {
