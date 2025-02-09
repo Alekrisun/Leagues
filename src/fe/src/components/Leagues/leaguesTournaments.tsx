@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { League, LeaguesResponse, ResponseEnum } from '../../types';
+import { League } from '../../types';
 import Card from '../card/card';
 import { loadData } from '../../api/getData';
 
@@ -23,7 +23,7 @@ export default function LeaguesTournaments({ instance }: { instance: string }) {
       const getData = async () => {
         try {
           const data = await loadData(instance);
-          setLoadedData(data[instance as keyof LeaguesResponse]);
+          setLoadedData(data.items);
           setIsLoaded(true);
         } catch (err) {
           setIsLoaded(true);

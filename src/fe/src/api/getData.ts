@@ -1,7 +1,7 @@
-import { useSelector } from 'react-redux';
+//import { useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 import { LeagueInfo, LeaguesResponse } from '../types';
-import { selectUserData } from '../slice/userSlice';
+//import { selectUserData } from '../slice/userSlice';
 const url = import.meta.env.VITE_API_URL;
 
 export const loadData = async (instance: string) => {

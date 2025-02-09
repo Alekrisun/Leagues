@@ -6,17 +6,11 @@ export type League = {
   description: string;
 };
 
-export type Tournament = {
-  id: string;
-  type: number;
-  mediaId: string;
-  name: string;
-  description: string;
-};
-
 export type LeaguesResponse = {
-  leagues: League[];
-  tournaments: Tournament[];
+  items: League[];
+  pageNumber: number;
+  totalPages: number;
+  totalCount: number;
 };
 
 export enum ResponseEnum {
