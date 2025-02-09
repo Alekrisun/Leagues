@@ -48,13 +48,27 @@ export type LeagueInfo = {
   subName: string;
   description: string;
   mediaId: string;
-  teams: Team[];
-  events: Record<string, EventLeagueInfo>[];
+  events: Record<string, EventLeagueInfo>;
+  games: Record<string, GameLeagueInfo>;
+  teams: Record<string, TeamLeagueInfo>;
+
   gamesToPlay: [];
   bestPlayer: Player;
   bestGoalPlayer: Player;
   bestHelpPlayer: Player;
   news: [];
+};
+
+export type TeamLeagueInfo = {
+  name: string;
+};
+
+export type GameLeagueInfo = {
+  eventId: string;
+  homeTeamId: string;
+  homeTeamScore: number;
+  guestTeamId: string;
+  guestTeamScore: number;
 };
 
 export type EventLeagueInfo = {
@@ -66,7 +80,7 @@ export type EventLeagueInfo = {
 export type GameEventLeagueInfo = {
   id: number;
   homeTeamId: string;
-  geustTeamId: string;
+  guestTeamId: string;
 };
 
 // export { League, LeaguesResponse };

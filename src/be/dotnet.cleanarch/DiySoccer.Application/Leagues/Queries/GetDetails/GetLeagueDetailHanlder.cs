@@ -39,7 +39,7 @@ public class GetLeagueDetailHanlder : IRequestHandler<GetLeagueDetailQuery, GetL
         var events = (await (await _context.Events
                 .FindAsync(x => x.LeagueId == request.LeagueId, cancellationToken: cancellationToken))
             .ToListAsync(cancellationToken: cancellationToken))
-            .OrderBy(x => x.StartDate)
+            .OrderByDescending(x => x.StartDate)
             .ToDictionary(x => x.EntityId, x => x);
         
         var teams = await (await _context.Teams
