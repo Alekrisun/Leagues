@@ -52,7 +52,6 @@ export type LeagueInfo = {
   games: Record<string, GameLeagueInfo>;
   teams: Record<string, TeamLeagueInfo>;
   users: Record<string, string>;
-
   gamesToPlay: [];
   bestPlayer: Player;
   bestGoalPlayer: Player;

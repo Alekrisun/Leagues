@@ -30,8 +30,8 @@ export default function Card({
   };
 
   if (type === ResponseEnum.LEAGUES) {
-      return (    
-        <Link to={`/leagues/${leagueId}`} className={styles.card}>
+    return (
+      <Link to={`/leagues/${leagueId}`} className={styles.card}>
         <div className={styles.imgWrapper}>
           <img src={imageUrl} alt="Team logo" onError={useDefaultImg} />
         </div>
@@ -45,13 +45,13 @@ export default function Card({
             <BsPencilSquare />
           </button>
         </div>
-      </Link>    
-    );  
+      </Link>
+    );
   }
 
   if (type === ResponseEnum.TOURNAMENTS) {
-      return (    
-        <Link to={`/tournaments/${leagueId}`} className={styles.card}>
+    return (
+      <Link to={`/tournaments/${leagueId}`} className={styles.card}>
         <div className={styles.imgWrapper}>
           <img src={imageUrl} alt="Team logo" onError={useDefaultImg} />
         </div>
@@ -65,7 +65,7 @@ export default function Card({
             <BsPencilSquare />
           </button>
         </div>
-      </Link>    
-    );  
+      </Link>
+    );
   }
 }
