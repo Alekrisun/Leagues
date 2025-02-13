@@ -15,17 +15,18 @@ export default function LeaguesTournaments({
   instance: string;
   type: number[];
 }) {
-  const [loadError, setLoadError] = useState('');
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [LoadedData, setLoadedData] = useState<null | League[]>(null);
-  const { data, error, isLoading } = useGetLeaguesTournamentsDataQuery();
+  // const [loadError, setLoadError] = useState('');
+  // const [isLoaded, setIsLoaded] = useState(false);
+  // const [LoadedData, setLoadedData] = useState<null | League[]>(null);
+  const { data, error, isLoading, refetch } =
+    useGetLeaguesTournamentsDataQuery();
 
   const cardsToDraw: JSX.Element[] = [];
 
-  const tryLoadAgain = () => {
-    setLoadError('');
-    setIsLoaded(false);
-  };
+  // const tryLoadAgain = () => {
+  //   setLoadError('');
+  //   setIsLoaded(false);
+  // };
 
   // useEffect(() => {
 
@@ -66,7 +67,12 @@ export default function LeaguesTournaments({
   return (
     <main className={styles.main}>
       {isLoading && <Spinner />}
-      {error && <ApiErrorComponent msg={loadError} tryAgain={tryLoadAgain} />}
+      {error && (
+        <ApiErrorComponent
+          msg={'Something went wrong. Try again.'}
+          tryAgain={refetch}
+        />
+      )}
       {!isLoading && !error && (
         <>
           <h2 className={styles.sectionHeading}>{instance}</h2>
