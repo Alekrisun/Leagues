@@ -18,7 +18,7 @@ function PlayOffTournamentCard({
   return (  
     <div className={styles.tableCardHalf}>
       <p>{eventId} - {event.name} PlayOff</p>
-      {games.map((game, index) => {        
+      {games.map((game) => {        
         return <p>{teams[game.homeTeamId].name} {game.homeTeamScore} - {game.guestTeamScore} {teams[game.guestTeamId].name} </p>
       })}
     </div>  
@@ -112,13 +112,13 @@ function GroupTournamentCard({
           .sort((a, b) => a.points > b.points ? -1 : a.points < b.points ? 1 
             : a.goals > b.goals ? -1 : a.goals < b.goals ? 1
               : a.missed > b.missed ? -1 : a.missed < b.missed ? 1 : 0)
-          .map((stat, index) => {        
+          .map((stat) => {        
           return <p>{stat.name} - {stat.goals} goals, {stat.missed} missed, {stat.wins} wins, {stat.draws} draws, {stat.loses} loses, {stat.points} points</p>
         })}
       </div>
       <div className={styles.tableCardHalf}>
         <p>Игры</p>
-        {games.map((game, index) => {        
+        {games.map((game) => {        
           return <p>{teams[game.homeTeamId].name} {game.homeTeamScore} - {game.guestTeamScore} {teams[game.guestTeamId].name} </p>
         })}
       </div>            

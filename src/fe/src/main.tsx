@@ -13,6 +13,7 @@ import Home from './components/Home/home.tsx';
 import LeaguesTournaments from './components/Leagues/leaguesTournaments.tsx';
 import LeagueInfoPage from './components/leagueInfo/leagueIngo.tsx';
 import TournamentPage from './components/tournamentPage/tournamentPage.tsx';
+import TeamPage from './components/TeamPage/teamPage.tsx';
 
 const router = createBrowserRouter([
   {
@@ -52,13 +53,30 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: '/leagues/:leagueId/teams/:teamId',
+        
+        element: (
+          <AuthWrapper>
+            <TeamPage />
+          </AuthWrapper>
+        ),
+      },   
+      {
         path: '/tournaments/:id',
         element: (
           <AuthWrapper>
             <TournamentPage />
           </AuthWrapper>
         ),
-      },      
+      },  
+      {
+        path: '/tournaments/:leagueId/teams/:teamId',
+        element: (
+          <AuthWrapper>
+            <TeamPage />
+          </AuthWrapper>
+        ),
+      },     
       {
         path: '/signup',
         element: <SignUp />,

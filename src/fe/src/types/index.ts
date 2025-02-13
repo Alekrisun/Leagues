@@ -51,6 +51,7 @@ export type LeagueInfo = {
   events: Record<string, EventLeagueInfo>;
   games: Record<string, GameLeagueInfo>;
   teams: Record<string, TeamLeagueInfo>;
+  users: Record<string, string>;
 
   gamesToPlay: [];
   bestPlayer: Player;
@@ -63,18 +64,29 @@ export type TeamLeagueInfo = {
   name: string;
 };
 
+export type MemberGameLeagueInfo = {
+  id: string;
+  score: number;
+  help: number;
+};
+
 export type GameLeagueInfo = {
+  id: string;
   eventId: string;
   homeTeamId: string;
   homeTeamScore: number;
+  homeTeamBestMemberId: string;
+  homeMembers: MemberGameLeagueInfo[];
   guestTeamId: string;
   guestTeamScore: number;
+  guestTeamBestMemberId: string;
+  guestMembers: MemberGameLeagueInfo[];
 };
 
 export type EventLeagueInfo = {
   name: string;
+  startDate: Date;
   games: GameEventLeagueInfo[]
-
 };
 
 export type GameEventLeagueInfo = {

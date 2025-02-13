@@ -46,8 +46,9 @@ public class GetLeagueDetailHanlder : IRequestHandler<GetLeagueDetailQuery, GetL
                 .FindAsync(x => x.LeagueId == request.LeagueId, cancellationToken: cancellationToken))
             .ToListAsync(cancellationToken: cancellationToken);
 
+        var userIds = games.SelectMany(x => x.GuestTeam.Members.Select(y => y.Id)).ToList();
         var users = (await (await _context.Users
-                .FindAsync(x => x.LeagueId == request.LeagueId, cancellationToken: cancellationToken))
+                .FindAsync(x => userIds.Contains(x.EntityId), cancellationToken: cancellationToken))
             .ToListAsync(cancellationToken: cancellationToken));
         
         MapTeams(leagueDetail, teams, games, events);
@@ -92,9 +93,6 @@ public class GetLeagueDetailHanlder : IRequestHandler<GetLeagueDetailQuery, GetL
     {
         foreach (var team in teams)
         {
-            if (team.Hidden)
-                continue;
-            
             var teamdDto = new GetLeagueDetailTeamDto
             {
                 Name = team.Name,
@@ -124,6 +122,7 @@ public class GetLeagueDetailHanlder : IRequestHandler<GetLeagueDetailQuery, GetL
             
             var gameDto = new GetLeagueDetailGameDto
             {
+                Id = game.EntityId,
                 EventId = game.EventId,
                 
                 HomeTeamId = game.HomeTeam.Id,

@@ -4,6 +4,7 @@ namespace DiySoccer.Application.Leagues.Queries.GetDetails;
 
 public class GetLeagueDetailGameDto
 {
+    public string? Id { get; set; }
     public string? EventId { get; set; }
     
     public required string HomeTeamId { get; set; }
