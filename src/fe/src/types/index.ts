@@ -51,7 +51,6 @@ export type LeagueInfo = {
   events: Record<string, EventLeagueInfo>;
   games: Record<string, GameLeagueInfo>;
   teams: Record<string, TeamLeagueInfo>;
-
   gamesToPlay: [];
   bestPlayer: Player;
   bestGoalPlayer: Player;

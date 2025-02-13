@@ -11,7 +11,7 @@ import AuthWrapper from './auth/authWrapper.tsx';
 import Home from './components/Home/home.tsx';
 
 import LeaguesTournaments from './components/Leagues/leaguesTournaments.tsx';
-import LeagueInfoPage from './components/leagueInfo/leagueIngo.tsx';
+import LeagueInfoPage from './components/leagueInfo/leagueInfo.tsx';
 import TournamentPage from './components/tournamentPage/tournamentPage.tsx';
 
 const router = createBrowserRouter([
@@ -31,15 +31,15 @@ const router = createBrowserRouter([
         path: '/leagues',
         element: (
           <AuthWrapper>
-            <LeaguesTournaments instance="leagues" type={1} />
+            <LeaguesTournaments instance="leagues" type={[0, 1]} />
           </AuthWrapper>
-        )
+        ),
       },
       {
         path: '/tournaments',
         element: (
           <AuthWrapper>
-            <LeaguesTournaments instance="tournaments" type={2} />
+            <LeaguesTournaments instance="tournaments" type={[2]} />
           </AuthWrapper>
         ),
       },
@@ -55,10 +55,10 @@ const router = createBrowserRouter([
         path: '/tournaments/:id',
         element: (
           <AuthWrapper>
-            <TournamentPage />
+            <eventTournamentPage />
           </AuthWrapper>
         ),
-      },      
+      },
       {
         path: '/signup',
         element: <SignUp />,

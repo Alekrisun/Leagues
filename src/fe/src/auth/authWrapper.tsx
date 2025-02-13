@@ -20,7 +20,7 @@ export default function AuthWrapper({ children }: { children: JSX.Element }) {
   const path = location.pathname.split('/');
 
   const jwt = Cookies.get('jwt');
-  console.log(params);
+  // console.log(params);
 
   if (!jwt) {
     if (location.pathname === '/') {
