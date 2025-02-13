@@ -65,7 +65,7 @@ const router = createBrowserRouter([
         path: '/tournaments/:id',
         element: (
           <AuthWrapper>
-            <eventTournamentPage />
+            <TournamentPage />
           </AuthWrapper>
         ),
       },  
