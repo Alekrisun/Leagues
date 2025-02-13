@@ -1,7 +1,7 @@
-import { useSelector } from 'react-redux';
+//import { useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 import { LeagueInfo, LeaguesResponse } from '../types';
-import { selectUserData } from '../slice/userSlice';
+//import { selectUserData } from '../slice/userSlice';
 const url = import.meta.env.VITE_API_URL;
 
 export const loadData = async (instance: string) => {
@@ -16,18 +16,18 @@ export const loadData = async (instance: string) => {
   return data;
 };
 
-export const getLeagueInfo = async (id: string) => {
+export const getLeague = async (id: string) => {
   const jwt = Cookies.get('jwt');
   let response;
 
   if (jwt) {
-    response = await fetch(`${url}/api/leagues/${id}/info`, {
+    response = await fetch(`${url}/api/leagues/${id}`, {
       headers: {
         Authorization: jwt,
       },
     });
   } else {
-    response = await fetch(`${url}/api/leagues/${id}/info`);
+    response = await fetch(`${url}/api/leagues/${id}`);
   }
 
   if (!response.ok) {

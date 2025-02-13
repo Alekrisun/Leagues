@@ -20,9 +20,9 @@ public class LeaguesEndpoints : EndpointGroupBase
             .MapGet(GetLeagueDetail, "{leagueId}");
     }
 
-    private async Task<Ok<PaginatedList<GetAllLeagueDto>>> GetLeaguesWithPagination(ISender sender, [FromBody] GetLeaguesWithPaginationQuery query)
+    private async Task<Ok<PaginatedList<GetAllLeagueDto>>> GetLeaguesWithPagination(ISender sender)
     {
-        var result = await sender.Send(query);
+        var result = await sender.Send(new GetLeaguesWithPaginationQuery());
 
         return TypedResults.Ok(result);
     }

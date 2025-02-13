@@ -16,12 +16,21 @@ public class GetLeagueDetailHanlder : IRequestHandler<GetLeagueDetailQuery, GetL
     
     public async Task<GetLeagueDetailDto?> Handle(GetLeagueDetailQuery request, CancellationToken cancellationToken)
     {
-        var league = await _context.Leagues
-            .FindAsync(x => x.EntityId == request.LeagueId, cancellationToken: cancellationToken);
+        var league = await (await _context.Leagues
+                .FindAsync(x => x.EntityId == request.LeagueId, cancellationToken: cancellationToken))
+            .FirstOrDefaultAsync(cancellationToken: cancellationToken);
         if (league == null)
             return null;
-
-        var leagueDetail = new GetLeagueDetailDto();
+        
+        var leagueDetail = new GetLeagueDetailDto
+        {
+            Id = league.EntityId, 
+            Name = league.Name,
+            SubName = league.SubName,
+            Description = league.Description,
+            Information = league.Information,
+            MediaId = league.MediaId, 
+        };
         
         var games = await (await _context.Games
                 .FindAsync(x => x.LeagueId == request.LeagueId, cancellationToken: cancellationToken))
@@ -30,6 +39,7 @@ public class GetLeagueDetailHanlder : IRequestHandler<GetLeagueDetailQuery, GetL
         var events = (await (await _context.Events
                 .FindAsync(x => x.LeagueId == request.LeagueId, cancellationToken: cancellationToken))
             .ToListAsync(cancellationToken: cancellationToken))
+            .OrderByDescending(x => x.StartDate)
             .ToDictionary(x => x.EntityId, x => x);
         
         var teams = await (await _context.Teams

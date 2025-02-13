@@ -1,17 +1,18 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
-import App from './App.tsx';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 import Layout from './components/layout/layout.tsx';
-import LeagueInfoPage from './components/leagueInfo/leagueIngo.tsx';
 import SignUp from './components/auth/signup/signup.tsx';
 import SignIn from './components/auth/signin/signin.tsx';
 import store from './store.ts';
 import { Provider } from 'react-redux';
 import AuthWrapper from './auth/authWrapper.tsx';
 import Home from './components/Home/home.tsx';
+
 import LeaguesTournaments from './components/Leagues/leaguesTournaments.tsx';
+import LeagueInfoPage from './components/leagueInfo/leagueIngo.tsx';
+import TournamentPage from './components/tournamentPage/tournamentPage.tsx';
 
 const router = createBrowserRouter([
   {
@@ -30,19 +31,17 @@ const router = createBrowserRouter([
         path: '/leagues',
         element: (
           <AuthWrapper>
-            <LeaguesTournaments instance="leagues" />
+            <LeaguesTournaments instance="leagues" type={1} />
+          </AuthWrapper>
+        )
+      },
+      {
+        path: '/tournaments',
+        element: (
+          <AuthWrapper>
+            <LeaguesTournaments instance="tournaments" type={2} />
           </AuthWrapper>
         ),
-        // children: [
-        //   {
-        //     path: '/leagues/:id',
-        //     element: (
-        //       <AuthWrapper>
-        //         <LeagueInfoPage />
-        //       </AuthWrapper>
-        //     ),
-        //   },
-        // ],
       },
       {
         path: '/leagues/:id',
@@ -53,13 +52,13 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: '/tournaments',
+        path: '/tournaments/:id',
         element: (
           <AuthWrapper>
-            <LeaguesTournaments instance="tournaments" />
+            <TournamentPage />
           </AuthWrapper>
         ),
-      },
+      },      
       {
         path: '/signup',
         element: <SignUp />,
