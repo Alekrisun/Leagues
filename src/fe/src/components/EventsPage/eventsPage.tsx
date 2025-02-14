@@ -33,7 +33,7 @@ export default function EventsPage() {
                     return (
                       <div className={styles.tableHalfCard}>
                         <div className={styles.nameText}>                  
-                          <p>{data.events[eventKey].name}</p>
+                          <p>{data.events[eventKey].name} - {data.events[eventKey].startDate.toString()}</p>
                         </div>              
                         <div>
                           {data.events[eventKey].games                            
@@ -58,7 +58,8 @@ export default function EventsPage() {
                                 return (
                                   <div className={styles.nameText}>                                
                                       <p>
-                                        {data.teams[gameData.homeTeamId].name} - {data.teams[gameData.guestTeamId].name}                                    
+                                        {gameData.homeTeamId != null ? data.teams[gameData.homeTeamId].name : ''} 
+                                        {gameData.guestTeamId != null ? data.teams[gameData.guestTeamId].name : ''}
                                       </p>
                                   </div>
                                 )
