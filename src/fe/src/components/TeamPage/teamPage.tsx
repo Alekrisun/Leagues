@@ -1,6 +1,6 @@
 
 import { useEffect, useState, SyntheticEvent } from 'react';
-import { useParams } from 'react-router';
+import { Link, useParams } from 'react-router';
 
 import defaultImg from '../../assets/img/defaultImg.png';
 import styles from '../../main.module.css';
@@ -21,6 +21,7 @@ export default function TeamPage() {
   const eventTeamStatsSorted: EventStatsCardProps[] = [];
 
   type EventStatsCardProps = { 
+    gameId: string;
     event: string; 
     eventDate: Date;
     result: string;
@@ -125,6 +126,7 @@ export default function TeamPage() {
       }
 
       eventTeamStatsSorted.push({ 
+        gameId: game.id,
         event: data.events[game.eventId].name, 
         eventDate: data.events[game.eventId].startDate,
         result: data.teams[game.homeTeamId].name + '(' + game.homeTeamScore + ') - ('+ game.guestTeamScore + ')' + data.teams[game.guestTeamId].name
@@ -172,7 +174,12 @@ export default function TeamPage() {
               {eventTeamStatsSorted
                 .sort((a, b) => a.eventDate > b.eventDate ? -1 : 1)
                 .map((item, index) => {    
-                return <p>{item.event} {item.result}</p>
+                return (
+                  <Link to={`/leagues/${leagueId}/games/${item.gameId}`}>
+                    <p>{item.event} {item.result}</p>
+                  </Link>
+                )
+                
               })}                
             </div>
           </div>

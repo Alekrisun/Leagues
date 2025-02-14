@@ -14,6 +14,7 @@ import LeaguesTournaments from './components/Leagues/leaguesTournaments.tsx';
 import LeagueInfoPage from './components/leagueInfo/leagueInfo.tsx';
 import TournamentPage from './components/tournamentPage/tournamentPage.tsx';
 import TeamPage from './components/TeamPage/teamPage.tsx';
+import GamePage from './components/GamePage/gamePage.tsx';
 
 const router = createBrowserRouter([
   {
@@ -60,7 +61,16 @@ const router = createBrowserRouter([
             <TeamPage />
           </AuthWrapper>
         ),
-      },   
+      },  
+      {
+        path: '/leagues/:leagueId/games/:gameId',
+        
+        element: (
+          <AuthWrapper>
+            <GamePage />
+          </AuthWrapper>
+        ),
+      },    
       {
         path: '/tournaments/:id',
         element: (
@@ -74,6 +84,15 @@ const router = createBrowserRouter([
         element: (
           <AuthWrapper>
             <TeamPage />
+          </AuthWrapper>
+        ),
+      }, 
+      {
+        path: '/tournaments/:leagueId/games/:gameId',
+        
+        element: (
+          <AuthWrapper>
+            <GamePage />
           </AuthWrapper>
         ),
       },     
