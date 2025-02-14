@@ -1,23 +1,20 @@
 
 import { useEffect, useState, SyntheticEvent } from 'react';
 import { useParams } from 'react-router';
-import styles from '../../main.module.css';
 
-import Spinner from '../spinner/spinner';
-import { LeagueInfo } from '../../types';
-import { getLeague } from '../../api/getData';
-import ApiErrorComponent from '../apiError/apiError';
 import defaultImg from '../../assets/img/defaultImg.png';
-const url = import.meta.env.VITE_API_URL;
+import styles from '../../main.module.css';
+import Spinner from '../spinner/spinner';
+import ApiErrorComponent from '../apiError/apiError';
+import { useGetLeagueInfoQuery } from '../../slice/apiSlice';
 
 export default function TeamPage() {
   const { leagueId, teamId } = useParams();  
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [loadError, setLoadError] = useState('');
-  const [league, setLeagueInfo] = useState<LeagueInfo>();
+  if (leagueId == null)
+    return(<></>);
+  const { data, error, isLoading, refetch } =
+    useGetLeagueInfoQuery(leagueId);
   
-  //let eventCards: JSX.Element[] = [];
-  let imageUrl;
   const teamStats: TeamStatsCardProps = { amount: 0, goals: 0, missed: 0, wins: 0, draws: 0, loses: 0, points: 0};      
   const memberTeamStats: Record<string, MemberStatsCardProps> = {};
   const memberTeamStatsSorted: MemberStatsCardProps[] = [];
@@ -46,38 +43,9 @@ export default function TeamPage() {
     help: number;    
   };
 
-  const useDefaultImg = (e: SyntheticEvent<HTMLImageElement, Event>) => {
-    const target: HTMLImageElement = e.target as HTMLImageElement;
-    target.src = defaultImg;
-    target.className = styles.defaultImg;
-  };
-
-  const tryLoadAgain = () => {
-    setLoadError('');
-    setIsLoaded(false);
-  };
-
-  useEffect(() => {
-    if (!loadError) {
-      const loadData = async () => {
-        try {
-          const data = await getLeague(leagueId!);
-          setLeagueInfo(data);
-          setIsLoaded(true);
-        } catch (err) {
-          setIsLoaded(true);
-          setLoadError((err as Error).message);
-        }
-      };
-      loadData();
-    }
-  }, [loadError]);
-
-  if (league) {  
-    imageUrl = `${url}/api/image/${league.mediaId}?width=130&height=130`;
-
-    for(var gameKey in league.games) {
-      var game = league.games[gameKey];
+  if (data) {
+    for(var gameKey in data.games) {
+      var game = data.games[gameKey];
 
       if (game.homeTeamId != teamId && game.guestTeamId != teamId)
         continue;
@@ -103,7 +71,7 @@ export default function TeamPage() {
           if ((Object.keys(memberTeamStats) as Array<string>).find(key => key == game.homeTeamBestMemberId) != null) {      
             memberTeamStats[game.homeTeamBestMemberId].best += 1;    
           } else {
-            memberTeamStats[game.homeTeamBestMemberId] = { name: league.users[game.homeTeamBestMemberId], best: 1, goals: 0, help: 0 };
+            memberTeamStats[game.homeTeamBestMemberId] = { name: data.users[game.homeTeamBestMemberId], best: 1, goals: 0, help: 0 };
           }  
         }
               
@@ -114,7 +82,7 @@ export default function TeamPage() {
             memberTeamStats[memberStats.id].goals += memberStats.score;    
             memberTeamStats[memberStats.id].help += memberStats.help;    
           } else {
-            memberTeamStats[memberStats.id] = { name: league.users[memberStats.id], best: 0, goals: memberStats.score, help: memberStats.help };
+            memberTeamStats[memberStats.id] = { name: data.users[memberStats.id], best: 0, goals: memberStats.score, help: memberStats.help };
           }   
         }
       }
@@ -141,7 +109,7 @@ export default function TeamPage() {
             memberTeamStats[game.guestTeamBestMemberId].best += 1;    
           } else {
           
-            memberTeamStats[game.guestTeamBestMemberId] = { name: league.users[game.guestTeamBestMemberId], best: 1, goals: 0, help: 0 };
+            memberTeamStats[game.guestTeamBestMemberId] = { name: data.users[game.guestTeamBestMemberId], best: 1, goals: 0, help: 0 };
           }
         }   
 
@@ -151,15 +119,15 @@ export default function TeamPage() {
             memberTeamStats[memberStats.id].goals += memberStats.score;    
             memberTeamStats[memberStats.id].help += memberStats.help;    
           } else {
-            memberTeamStats[memberStats.id] = { name: league.users[memberStats.id],  best: 0, goals: memberStats.score, help: memberStats.help };
+            memberTeamStats[memberStats.id] = { name: data.users[memberStats.id],  best: 0, goals: memberStats.score, help: memberStats.help };
           }   
         }        
       }
 
       eventTeamStatsSorted.push({ 
-        event: league.events[game.eventId].name, 
-        eventDate: league.events[game.eventId].startDate,
-        result: league.teams[game.homeTeamId].name + '(' + game.homeTeamScore + ') - ('+ game.guestTeamScore + ')' + league.teams[game.guestTeamId].name
+        event: data.events[game.eventId].name, 
+        eventDate: data.events[game.eventId].startDate,
+        result: data.teams[game.homeTeamId].name + '(' + game.homeTeamScore + ') - ('+ game.guestTeamScore + ')' + data.teams[game.guestTeamId].name
       })
     }
 
@@ -169,46 +137,47 @@ export default function TeamPage() {
   } 
 
   return (
-    <>
-      <main className={styles.main}>
-        {!isLoaded && <Spinner />}
-        {!!loadError && (
-          <ApiErrorComponent msg={loadError} tryAgain={tryLoadAgain} />
-        )}
-        {isLoaded && !loadError && (
-          <>
-            <div className={styles.leaguesWrapper}>
-              <div className={styles.tableCard}>
-                <div className={styles.imgWrapper}>                  
-                </div>
-                {teamId != null && league != null && (
-                  <p className={styles.nameText}>{league.teams[teamId].name}</p>
-                )}                
+    <main className={styles.main}>
+      {isLoading && <Spinner />}
+      {error && (
+        <ApiErrorComponent
+          msg={'Something went wrong. Try again.'}
+          tryAgain={refetch}
+        />
+      )}
+      {!isLoading && !error && (
+        <>
+          <div className={styles.leaguesWrapper}>
+            <div className={styles.tableCard}>
+              <div className={styles.imgWrapper}>                  
               </div>
-              <div className={styles.tableCard}>
-                <p>Стата команды</p>
-                <p>{teamStats.amount} amount - {teamStats.wins} wins, {teamStats.draws} draws, {teamStats.loses} loses, {teamStats.goals} goals, {teamStats.missed} missed, {teamStats.points} points</p>
-              </div>
-              <div className={styles.tableCard}>
-                <p>Стата игроков</p>
-                {memberTeamStatsSorted
-                  .sort((a, b) => a.goals + a.help > b.goals + a.help ? -1 : 1)
-                  .map((item, index) => {    
-                  return <p>{index + 1}. {item.name} {item.best} best, {item.goals} goals, {item.help} help, {item.goals + item.help} sum</p>
-                })}                
-              </div>
-              <div className={styles.tableCard}>
-                <p>Календарь</p>
-                {eventTeamStatsSorted
-                  .sort((a, b) => a.eventDate > b.eventDate ? -1 : 1)
-                  .map((item, index) => {    
-                  return <p>{item.event} {item.result}</p>
-                })}                
-              </div>
+              {teamId != null && data != null && (
+                <p className={styles.nameText}>{data.teams[teamId].name}</p>
+              )}                
             </div>
-          </>
-        )}
-      </main>
-    </>
+            <div className={styles.tableCard}>
+              <p>Стата команды</p>
+              <p>{teamStats.amount} amount - {teamStats.wins} wins, {teamStats.draws} draws, {teamStats.loses} loses, {teamStats.goals} goals, {teamStats.missed} missed, {teamStats.points} points</p>
+            </div>
+            <div className={styles.tableCard}>
+              <p>Стата игроков</p>
+              {memberTeamStatsSorted
+                .sort((a, b) => a.goals + a.help > b.goals + a.help ? -1 : 1)
+                .map((item, index) => {    
+                return <p>{index + 1}. {item.name} {item.best} best, {item.goals} goals, {item.help} help, {item.goals + item.help} sum</p>
+              })}                
+            </div>
+            <div className={styles.tableCard}>
+              <p>Календарь</p>
+              {eventTeamStatsSorted
+                .sort((a, b) => a.eventDate > b.eventDate ? -1 : 1)
+                .map((item, index) => {    
+                return <p>{item.event} {item.result}</p>
+              })}                
+            </div>
+          </div>
+        </>
+      )}
+    </main>
   );
 }
