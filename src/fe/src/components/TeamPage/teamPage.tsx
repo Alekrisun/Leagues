@@ -178,8 +178,7 @@ export default function TeamPage() {
                   <Link to={`/leagues/${leagueId}/games/${item.gameId}`}>
                     <p>{item.event} {item.result}</p>
                   </Link>
-                )
-                
+                )                
               })}                
             </div>
           </div>
