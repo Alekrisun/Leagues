@@ -24,6 +24,7 @@
 /.vs
 
 /src/be/dotnet/.idea/
+src/be/dotnet/.vs/
 /src/be/dotnet/web/.idea/
 /src/be/dotnet/web/obj/
 /src/be/dotnet/web/bin/
@@ -33,3 +34,14 @@
 /src/be/dotnet/implementations/.idea/
 /src/be/dotnet/implementations/obj/
 /src/be/dotnet/implementations/bin/
+
+/src/be/dotnet.cleanarch/.idea/
+/src/be/dotnet.cleanarch/.vs/
+/src/be/dotnet.cleanarch/DiySoccer.Web.Api/bin/
+/src/be/dotnet.cleanarch/DiySoccer.Web.Api/obj/
+/src/be/dotnet.cleanarch/DiySoccer.Application/obj/
+/src/be/dotnet.cleanarch/DiySoccer.Application/bin/
+/src/be/dotnet.cleanarch/DiySoccer.Domain/obj/
+/src/be/dotnet.cleanarch/DiySoccer.Domain/bin/
+/src/be/dotnet.cleanarch/DiySoccer.Infrastructure/obj/
+/src/be/dotnet.cleanarch/DiySoccer.Infrastructure/bin/

@@ -263,6 +263,7 @@
     <Content Include="Content\dist\react\f0af1680f082547a7aae.ttf" />
     <Content Include="Content\dist\react\f7f1738ca345185e0185.woff" />
     <Content Include="Content\dist\react\react.app.bundle.js" />
+    <Content Include="Content\dist\react\styles.bundle.css" />
     <Content Include="Content\dist\vendor.bundle.js" />
     <Content Include="Content\img\DefaultLogo_70x70.png" />
     <Content Include="Content\js\app\games\gameExternal\gameExternalModule.js" />

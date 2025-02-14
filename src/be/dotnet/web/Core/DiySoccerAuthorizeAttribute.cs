@@ -37,24 +37,11 @@ namespace DiySoccer.Core.Attributes
                     ? context.RouteData.Values["tournamentId"]?.ToString()
                     : string.Empty;
 
-            switch (_accessStatus)
-            {
-                case LeagueAccessStatus.Member:
-                    if (!authenticateManager.IsMember(user, leagueId))
-                        context.Result = new UnauthorizedResult();
-                    break;
-                case LeagueAccessStatus.Editor:
-                    if (!authenticateManager.IsEditor(user, leagueId))
-                        context.Result = new UnauthorizedResult();
-                    break;
-                case LeagueAccessStatus.Admin:
-                    if (!authenticateManager.IsAdmin(user))
-                        context.Result = new UnauthorizedResult();
-                    break;
-                default:
-                    context.Result = new UnauthorizedResult();
-                    break;
-            }
+            if (string.IsNullOrEmpty(leagueId))
+                new UnauthorizedResult();
+            
+            if (authenticateManager.GetAccess(leagueId) == LeagueAccessStatus.None)
+                context.Result = new UnauthorizedResult();
         }
     }
 }

@@ -6,6 +6,6 @@ namespace Interfaces.Core.Services.Medias.BuisnessLogic
     {
         MediaIOViewModel GetCutImage(string mediaId, int? width, int? height);
         MediaIOViewModel GetImage(string mediaId, int? width, int? height);
-        //MediaViewModel Upload(HttpPostedFile file);
+        MediaViewModel Upload(string fileName, string fileData, string contentType);
     }
 }

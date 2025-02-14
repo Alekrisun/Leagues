@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Implementations.Core;
 using Implementations.Events;
+using Interfaces.Authenticate.BuisnessLogic;
 using Interfaces.Core;
+using interfaces.Entities;
 using Interfaces.Events.DataAccess.Model;
 using Interfaces.Games.DataAccess.Model;
 using Interfaces.Leagues.BuisnessLogic.Model;
@@ -17,32 +19,33 @@ namespace Implementations.Leagues
     {
         private readonly ScoreCalculation _scoreCalculation;
         private readonly UserStatisticCalculation _userStatisticCalculation;
-        private readonly EventsMapper _eventsMapper;
 
-        public LeaguesMapper(ScoreCalculation scoreCalculation, UserStatisticCalculation userStatisticCalculation, EventsMapper eventsMapper)
+        private readonly IAuthenticateManager _authenticateManager;
+        
+        public LeaguesMapper(ScoreCalculation scoreCalculation, UserStatisticCalculation userStatisticCalculation, IAuthenticateManager authenticateManager)
         {
             _scoreCalculation = scoreCalculation;
             _userStatisticCalculation = userStatisticCalculation;
-            _eventsMapper = eventsMapper;
+            _authenticateManager = authenticateManager;
         }
 
-        public LeaguesViewModel MapLeagues(IList<LeagueDb> entities)
+        public LeaguesViewModel MapLeagues(IList<LeagueDb> entities, User? user)
         {
             var leagues = entities
                 .Where(x => x.Type != LeagueType.Tournament)
-                .Select(Map);
+                .Select(x => Map(x, user));
             var tournaments = entities
                 .Where(x => x.Type == LeagueType.Tournament)
-                .Select(Map);
+                .Select(x => Map(x, user));
 
             return new LeaguesViewModel
             {
-                Leagues = leagues,
-                Tournaments = tournaments
+                Leagues = leagues.Where(x => x.Access != LeagueAccessStatus.None),
+                Tournaments = tournaments.Where(x => x.Access != LeagueAccessStatus.None)
             };
         }
 
-        public LeagueViewModel Map(LeagueDb league)
+        public LeagueViewModel Map(LeagueDb league, User? user)
         {
             return new LeagueViewModel
             {
@@ -50,7 +53,8 @@ namespace Implementations.Leagues
                 Name = league.Name,
                 MediaId = league.MediaId,
                 Description = league.SubName,
-                Type = league.Type
+                Type = league.Type,
+                Access = _authenticateManager.GetAccess(league, user)
             };
         }
 

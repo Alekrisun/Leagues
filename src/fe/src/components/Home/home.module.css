@@ -1,0 +1,60 @@
+.main {
+  flex-grow: 1;
+  /* max-width: 1280px; */
+  width: 100%;
+  /* margin: 0 auto; */
+  /* padding: 20px 10px; */
+}
+
+.videoContainer {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  height: calc(100vh - 65px);
+}
+
+.mainHeading {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translate(-50%);
+  color: var(--diys-name-color);
+  text-transform: uppercase;
+  font-size: 40px;
+}
+
+.mainBtnWrapper {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  display: flex;
+  justify-content: space-between;
+  width: 400px;
+  transform: translate(-50%);
+  z-index: 1;
+}
+
+.mainBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 170px;
+  height: 50px;
+  background-color: var(--diys-header-color);
+  color: #ffffff;
+  border-radius: 5px;
+  text-decoration: none;
+  box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.3);
+  transition: 0.2s ease-in-out;
+}
+
+.mainBtn:hover {
+  cursor: pointer;
+  transform: scale(1.01);
+}
+
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

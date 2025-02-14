@@ -2,7 +2,7 @@
 using System.Linq;
 using Implementations.Core;
 using Implementations.Teams;
-using Interfaces.Core;
+using Interfaces.Authenticate.BuisnessLogic;
 using Interfaces.Events.DataAccess;
 using Interfaces.Games.DataAccess;
 using Interfaces.Leagues.BuisnessLogic;
@@ -26,7 +26,9 @@ namespace Implementations.Leagues.BuisnessLogic
         private readonly LeaguesMapper _leaguesMapper;
         private readonly UserStatisticCalculation _userStatisticCalculation;
 
-        public LeaguesManager(ILeaguesRepository leaguesRepository, ITeamsRepository teamsRepository, IGamesRepository gamesRepository, IPlayersRepository playersRepository, IUsersRepository usersRepository, TeamsMapper teamMapper, UserStatisticCalculation userStatisticCalculation, LeaguesMapper leaguesMapper, IEventsRepository eventsRepository)
+        private readonly IAuthenticateManager _authenticateManager;
+
+        public LeaguesManager(ILeaguesRepository leaguesRepository, ITeamsRepository teamsRepository, IGamesRepository gamesRepository, IPlayersRepository playersRepository, IUsersRepository usersRepository, TeamsMapper teamMapper, UserStatisticCalculation userStatisticCalculation, LeaguesMapper leaguesMapper, IEventsRepository eventsRepository, IAuthenticateManager authenticateManager)
         {
             _leaguesRepository = leaguesRepository;
             _teamsRepository = teamsRepository;
@@ -37,6 +39,7 @@ namespace Implementations.Leagues.BuisnessLogic
             _userStatisticCalculation = userStatisticCalculation;
             _leaguesMapper = leaguesMapper;
             _eventsRepository = eventsRepository;
+            _authenticateManager = authenticateManager;
         }
         
         public LeagueInfoViewModel GetInfo(string leagueId)
@@ -66,32 +69,9 @@ namespace Implementations.Leagues.BuisnessLogic
                 .GetAll()
                 .ToList();
 
-            return _leaguesMapper.MapLeagues(leagueEntities);
-        }
-
-
-        public IEnumerable<LeagueUnsecureViewModel> GetAllUnsecure()
-        {
-            var leagues = _leaguesRepository.GetAll().ToList();
-            var userIds = leagues.SelectMany(x => x.Admins).ToList();
-            var users = _usersRepository.GetRange(userIds).ToDictionary(x => x.Id, y => y.UserName);
-
-            return leagues.Select(x => new LeagueUnsecureViewModel
-            {
-                Id = x.EntityId,
-                Name = x.Name,
-                Description = x.Description,
-                VkGroup = x.VkSecurityGroup,
-                Admins = x.Admins
-                    .Select(y => users.ContainsKey(y) 
-                        ? new IdNameViewModel
-                        {
-                            Id = y,
-                            Name = users[y]
-                        }  
-                        : null)
-                    .Where(y => y != null)
-            });
+            var user = _authenticateManager.GetCurrentUser();
+            
+            return _leaguesMapper.MapLeagues(leagueEntities, user);
         }
 
         public LeagueUnsecureViewModel GetUnsecure(string leagueId)

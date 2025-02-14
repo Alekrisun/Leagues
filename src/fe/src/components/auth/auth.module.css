@@ -1,0 +1,82 @@
+.signupForm,
+.signinForm {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 350px;
+  height: 450px;
+  margin: 0 auto;
+  padding: 30px;
+  background-color: var(--diys-box-table-column-color);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 15px;
+}
+
+.signinForm {
+  height: 260px;
+}
+
+.heading {
+  margin: 0;
+}
+
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  gap: 10px;
+}
+
+.label {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  font-size: 14px;
+  color: var(--diys-box-table-cell-lighted);
+}
+
+.input {
+  height: 25px;
+}
+
+.invalidInput {
+  border-color: red;
+  outline-color: red;
+}
+
+.error {
+  position: absolute;
+  top: 45px;
+  left: 2px;
+  font-size: 8px;
+  color: red;
+}
+
+.loginError {
+  width: 350px;
+  margin: 20px auto;
+  text-align: center;
+  font-size: 14px;
+  color: red;
+}
+
+.button {
+  height: 25px;
+  color: var(--diys-name-color);
+  background-color: var(--diys-btn-bg-color);
+  border: none;
+  border-radius: 5px;
+  transition: 0.2s ease-in-out;
+}
+
+@media (pointer: fine) {
+  .button:hover {
+    cursor: pointer;
+    background-color: var(--diys-btn-hover-bg-color);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  }
+}

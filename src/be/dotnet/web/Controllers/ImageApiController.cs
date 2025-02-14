@@ -21,39 +21,25 @@ namespace DiySoccer.Api
         [Route("api/image/{mediaId}")]
         //[CacheOutput]
         [HttpGet]
-        public HttpResponseMessage GetCutImage(string mediaId, int? width = null, int? height = null)
+        public IActionResult GetCutImage(string mediaId, int? width = null, int? height = null)
         {
             var model = _mediaManager.GetCutImage(mediaId, width, height);
             if (model == null)
-                return new HttpResponseMessage(HttpStatusCode.NotFound);
+                return new NotFoundResult();
 
-            var response = new HttpResponseMessage()
-            {
-                Content = new StreamContent(model.Stream)
-            };
-
-            // Find the MIME type
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue(model.ContentType);
-            return response;
+            return new FileContentResult(model.Content, model.ContentType);
         }
 
         [Route("api/image/uncut/{mediaId}")]
         //[CacheOutput]
         [HttpGet]
-        public HttpResponseMessage GetImage(string mediaId, int? width = null, int? height = null)
+        public IActionResult GetImage(string mediaId, int? width = null, int? height = null)
         {
             var model = _mediaManager.GetImage(mediaId, width, height);
             if (model == null)
-                return new HttpResponseMessage(HttpStatusCode.NotFound);
+                return new NotFoundResult();
 
-            var response = new HttpResponseMessage()
-            {
-                Content = new StreamContent(model.Stream)
-            };
-
-            // Find the MIME type
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue(model.ContentType);
-            return response;
+            return new FileContentResult(model.Content, model.ContentType);
         }
 
         #endregion
@@ -63,16 +49,16 @@ namespace DiySoccer.Api
         [Route("api/upload/logo")]
         [DiySoccerAuthorize(LeagueAccessStatus.Editor)]
         [HttpPost]
-        public MediaViewModel UploadImage()
+        public async Task<MediaViewModel> UploadImage([FromForm] IFormFile file)
         {
-            throw new NotImplementedException();
-            
-            //if (HttpContext.Current.Request.Files.Count != 1)
-            //    return null;
-            //
-            //var media = _mediaManager.Upload(HttpContext.Current.Request.Files[0]);
-            //
-            //return Ok(media);
+            using (var sr = new StreamReader(file.OpenReadStream()))
+            {
+                var content = await sr.ReadToEndAsync();
+                
+                var media = _mediaManager.Upload(file.FileName, content, file.ContentType);
+                
+                return media;
+            }
         }
 
         #endregion

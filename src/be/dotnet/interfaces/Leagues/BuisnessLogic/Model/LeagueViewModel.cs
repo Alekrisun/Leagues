@@ -1,4 +1,5 @@
-﻿using Interfaces.Leagues.DataAccess.Model;
+﻿using Interfaces.Core;
+using Interfaces.Leagues.DataAccess.Model;
 using Newtonsoft.Json;
 
 namespace Interfaces.Leagues.BuisnessLogic.Model
@@ -19,5 +20,8 @@ namespace Interfaces.Leagues.BuisnessLogic.Model
 
         [JsonProperty("description")]
         public string Description { get; set; }
+        
+        [JsonProperty("access")]
+        public LeagueAccessStatus Access { get; set; }
     }
 }

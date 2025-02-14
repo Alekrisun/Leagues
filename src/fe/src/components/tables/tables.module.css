@@ -1,0 +1,29 @@
+tr {
+  border: 1px solid var(--diys-box-table-cell-lighted);
+}
+
+.table {
+  border-collapse: collapse;
+  width: 60%;
+}
+
+.tableHeadingMainRow {
+  height: 50px;
+  width: 100%;
+  padding-right: 30px;
+  text-align: end;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--diys-header-color);
+  background-color: var(--diys-box-header-color);
+}
+
+.tableHeading {
+  margin: 0;
+  font-size: 20px;
+}
+
+.tableHead {
+  height: 35px;
+  background-color: #84e0ff ;
+}

@@ -34,7 +34,7 @@ namespace Interfaces.Leagues.BuisnessLogic.Model
 
         [JsonProperty("admins")]
         public IEnumerable<IdNameViewModel> Admins { get; set; }
-
+        
         public LeagueUnsecureViewModel()
         {
             Admins = Enumerable.Empty<IdNameViewModel>();
